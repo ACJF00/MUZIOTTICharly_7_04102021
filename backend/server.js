@@ -2,6 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const apiRouter = require('./apiRouter').router;
+const cors = require('cors');
 
 // Instanciation serveur
 const server = express();
@@ -10,12 +11,25 @@ const server = express();
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 
-// Configure routes
+/**  CORS policy
+const cors=require("cors");
+const corsOptions ={
+   origin:'*', 
+   credentials:true,            //access-control-allow-credentials:true
+   optionSuccessStatus:200,
+}
 
+server.use(cors(corsOptions))*/
+
+// Configure routes
 server.get('/', function (req, res) {
-    res.setHeader('Content-Type', 'text/html');
-    res.status(200).send('<h1>Bienvenue sur mon serveur</h1>');
-});
+    res.setHeader('Content-Type', 'text/html'),
+        res.status(200).send('<h1>Hi on my server</h1>')
+})
+
+server.use(cors())
+
+
 
 server.use('/api/', apiRouter);
 

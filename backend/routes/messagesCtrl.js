@@ -4,8 +4,8 @@ const asyncLib = require('async');
 const jwtUtils = require('../utils/jwt.utils');
 
 // Constantes
-const TITLE_LIMIT = 2;
-const CONTENT_LIMIT = 4;
+const TITLE_LIMIT = 1;
+const CONTENT_LIMIT = 40;
 const ITEMS_LIMIT   = 50;
 
 // Routes
@@ -18,13 +18,14 @@ module.exports = {
         // Paramètres
         const title = req.body.title;
         const content = req.body.content;
+        const attachment = req.body.attachment;
 
-        if (title == null || content == null) {
+       /* if (title == '' ||  content == '') {
             return res.status(400).json({ 'error': 'missing parameters' });
         }
-        if (title.length <= TITLE_LIMIT || content.length <= CONTENT_LIMIT) {
+      /*  if (title.length <= TITLE_LIMIT || content.length <= CONTENT_LIMIT) {
             return res.status(400).json({ 'error': 'invalid parameters' });
-        }
+        }*/
 
         asyncLib.waterfall([
             function(done) {
@@ -73,7 +74,7 @@ module.exports = {
             }
         
             models.Message.findAll({
-              order: [(order != null) ? order.split(':') : ['title', 'ASC']],
+              order: [(order != null) ? order.split(':') : ['createdAt', 'ASC']],
               attributes: (fields !== '*' && fields != null) ? fields.split(',') : null,
               limit: (!isNaN(limit)) ? limit : null,
               offset: (!isNaN(offset)) ? offset : null,
@@ -85,7 +86,7 @@ module.exports = {
               if (messages) {
                 res.status(200).json(messages);
               } else {
-                res.status(404).json({ "error": "no messages found" });
+                res.status(404).json({ "error": "no message found" });
               }
             }).catch(function(err) {
               console.log(err);
