@@ -17,7 +17,6 @@ const routes = [
         name: 'message',
         path: '/message',
         component: Message,
-        props: true,
         meta: {
             title: 'Message'
         },
