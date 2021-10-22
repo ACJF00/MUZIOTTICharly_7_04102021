@@ -15,14 +15,14 @@ const routes = [
         }
     }, {
         name: 'message',
-        path: '/message',
+        path: '/Message',
         component: Message,
         meta: {
             title: 'Message'
         },
      }, {
         name: 'feed',
-        path: '/feed',
+        path: '/Feed',
         component: Feed,
         props: true,
         meta: {
@@ -30,7 +30,7 @@ const routes = [
         }
      }, { 
             name: 'profile',
-            path: '/profile', 
+            path: '/Profile', 
             component: Profile, 
             props: true,
             meta: {
