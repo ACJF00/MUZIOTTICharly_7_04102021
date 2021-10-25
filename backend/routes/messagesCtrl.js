@@ -27,7 +27,39 @@ module.exports = {
             return res.status(400).json({ 'error': 'invalid parameters' });
         }*/
 
-        asyncLib.waterfall([
+        models.User.findOne({
+          where: { id: userId }
+      })
+      .then(userFound => {
+          if (userFound) {
+              if (req.attachment == null) {
+                  models.Message.create({
+                      title: title,
+                      content: content,
+                      attachement: 0,
+                      likes: 0,
+                      UserId: userFound.id
+                  })
+                  .then(newMessage => res.status(201).json(newMessage))
+                  .catch(err => res.status(404).json({ error: 'user not found' }))
+              } else {
+                  models.Message.create({
+                      title: title,
+                      content: content,
+                      attachment: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+                      likes: 0,
+                      UserId: userFound.id
+                  })
+                  .then(newMessage => res.status(201).json(newMessage))
+                  .catch(err => res.status(404).json({ error: 'user not found' }))
+              }
+          }
+      })
+      .catch(error => res.status(500).json({ error: 'unable to verify user' }))
+  },
+
+
+        /*asyncLib.waterfall([
             function(done) {
               models.User.findOne({
                 where: { id: userId }
@@ -61,7 +93,7 @@ module.exports = {
               return res.status(500).json({ 'error': 'cannot post message' });
             }
           });
-        },
+        },*/
 
         listMessages: function(req, res) {
             const fields  = req.query.fields;

@@ -46,10 +46,10 @@ submit(){
     content: this.content
     }
   const headers = { 
-    "Content-Type": "application/x-www-form-urlencoded",
-    "Authorization": `Bearer ${token}`
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${token}`,
   };
-  axios.post("http://localhost:3000/api/messages/new", data, { headers })
+  axios.post("http://localhost:3000/api/messages/new", headers, data)
    .then((response) => 
       {
           if (response) 
