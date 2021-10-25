@@ -29,6 +29,7 @@ export default {
         return {
             title: "",
             content: "",
+            attachment: null
         }
     },
      mounted() {
@@ -38,26 +39,30 @@ export default {
     }
   },
   methods: {
-submit(){
+submit() {
   // POST request using axios with set headers
   const token = this.$store.state.user.token
   const data = {
     title: this.title,
-    content: this.content
+    content: this.content,
+    attachment: 0
     }
+    console.log(data)
   const headers = { 
     "Content-Type": "application/json",
     "Authorization": `Bearer ${token}`,
-  };
-  axios.post("http://localhost:3000/api/messages/new", headers, data)
+  }
+
+       axios.post("http://localhost:3000/api/messages/new", data, { headers })
+
    .then((response) => 
       {
-          if (response) 
+          console.log(response) 
           {
               this.$router.push("/feed")
           }
       })
-      .catch((error) => 
+    .catch((error) => 
       {
           console.log(error)
       })

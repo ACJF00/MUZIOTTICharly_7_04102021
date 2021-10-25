@@ -27,7 +27,7 @@ module.exports = {
             return res.status(400).json({ 'error': 'invalid parameters' });
         }*/
 
-        models.User.findOne({
+       /* models.User.findOne({
           where: { id: userId }
       })
       .then(userFound => {
@@ -36,7 +36,7 @@ module.exports = {
                   models.Message.create({
                       title: title,
                       content: content,
-                      attachement: 0,
+                      attachment: 0,
                       likes: 0,
                       UserId: userFound.id
                   })
@@ -53,13 +53,15 @@ module.exports = {
                   .then(newMessage => res.status(201).json(newMessage))
                   .catch(err => res.status(404).json({ error: 'user not found' }))
               }
+          } else {
+            return res.status(409).json({ 'error': 'CA MARCHE PAS' });
           }
       })
       .catch(error => res.status(500).json({ error: 'unable to verify user' }))
-  },
+  },*/
 
 
-        /*asyncLib.waterfall([
+        asyncLib.waterfall([
             function(done) {
               models.User.findOne({
                 where: { id: userId }
@@ -93,7 +95,7 @@ module.exports = {
               return res.status(500).json({ 'error': 'cannot post message' });
             }
           });
-        },*/
+        },
 
         listMessages: function(req, res) {
             const fields  = req.query.fields;

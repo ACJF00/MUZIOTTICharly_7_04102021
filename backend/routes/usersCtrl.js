@@ -84,8 +84,8 @@ module.exports  = {
         login: function(req, res) {
           
           // Params
-          var email    = req.body.email;
-          var password = req.body.password;
+          const email    = req.body.email;
+          const password = req.body.password;
       
           if (email == null ||  password == null) {
             return res.status(400).json({ 'error': 'missing parameters' });

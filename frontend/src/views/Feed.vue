@@ -26,8 +26,8 @@ export default {
       return moment(this.message.createdAt).fromNow()
   },
   mounted() {
-    if (this.$store.state.user.userId == -1) { // if userId doesn't exist
-      this.$router.push("/") //go back to login
+    if (this.$store.state.user.userId == -1) {
+      this.$router.push("/")
       return
     }
   },
@@ -37,8 +37,8 @@ export default {
       .then((response) => {
         this.messages = response.data
       })
-      .catch((err) => {
-        console.log(err)
+      .catch((error) => {
+        console.log(error)
       })
   },
 }

@@ -1,15 +1,18 @@
 // Imports
 const express = require('express');
-const bodyParser = require('body-parser');
+//const bodyParser = require('body-parser');
 const apiRouter = require('./apiRouter').router;
 const cors = require('cors');
+const path = require('path');
 
 // Instanciation serveur
 const server = express();
 
+server.use(express.json());
+
 // Body-Parser config
-server.use(bodyParser.urlencoded({ extended: true }));
-server.use(bodyParser.json());
+//server.use(bodyParser.urlencoded({ extended: true }));
+//server.use(bodyParser.json());
 
 /**  CORS policy
 const cors=require("cors");
@@ -23,7 +26,7 @@ server.use(cors(corsOptions))*/
 
 // Configure routes
 server.get('/', function (req, res) {
-    res.setHeader('Content-Type', 'text/html'),
+    res.setHeader('Content-Type', 'text/html', 'Access-Control-Allow-Origin: *' ),
         res.status(200).send('<h1>Hi on my server</h1>')
 })
 

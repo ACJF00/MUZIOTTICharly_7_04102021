@@ -16,7 +16,7 @@ if (!user) {
   try {
     user = JSON.parse(user);
     instance.defaults.headers.common['Authorization'] = user.token;
-  } catch (ex) {
+  } catch {
     user = {
       userId: -1,
       token: '',
@@ -32,7 +32,6 @@ const store = createStore({
     userInfos: {
       email: '',
       username: '',
-      photo: '',
       bio: '',
     },
   },
@@ -72,10 +71,9 @@ const store = createStore({
         });
       });
     },
-    createAccount: ({commit}, userInfos) => {
+    createAccount: ({ commit }, userInfos) => {
       commit('setStatus', 'loading');
       return new Promise((resolve, reject) => {
-        commit;
         instance.post('/users/register', userInfos)
         .then(function (response) {
           commit('setStatus', 'created');

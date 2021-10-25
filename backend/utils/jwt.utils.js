@@ -1,6 +1,5 @@
 // Imports
 const jwt = require('jsonwebtoken');
-
 const JWT_SIGN_SECRET = 'YQc63d7AEKyKXb4RLHqPSLD5cBzBKNnp6tFTicjJ8iFFHX7mDSN7MPygQYAaqfQoSs99X'
 
 // Exported functions
@@ -12,7 +11,7 @@ module.exports = {
       },
       JWT_SIGN_SECRET,
       {
-        expiresIn: '1h'
+        expiresIn: '24h'
       })
     },
     parseAuthorization: function(authorization) {
