@@ -45,9 +45,10 @@ submit() {
   const data = {
     title: this.title,
     content: this.content,
+    createdAt: this.createdAt,
     attachment: 0
     }
-    console.log(data)
+    
   const headers = { 
     "Content-Type": "application/json",
     "Authorization": `Bearer ${token}`,
