@@ -12,6 +12,11 @@
           <p>Message</p>
           <textarea v-model="content"></textarea>
         </div>
+       <div class="item">
+        <p>Ajouter une image</p>
+        <input type="file" @change="onFileSelected">
+        <button @click="onUpload">Upload</button>
+        </div>
       </form>
           <div class="test">
           <button @click="submit">Publier</button>
@@ -39,17 +44,21 @@ export default {
     }
   },
   methods: {
+/*onFileSelected(event) {
+  this.attachment = event.target.files[0]
+},
+onUpload() {
+
+},*/
 submit() {
   // POST request using axios with set headers
   const token = this.$store.state.user.token
   const data = {
     title: this.title,
     content: this.content,
-    createdAt: this.createdAt,
-    attachment: 0
+    attachment: this.attachment 
     }
-    
-  const headers = { 
+   const headers = { 
     "Content-Type": "application/json",
     "Authorization": `Bearer ${token}`,
   }

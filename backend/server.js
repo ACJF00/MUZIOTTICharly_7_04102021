@@ -1,6 +1,6 @@
 // Imports
 const express = require('express');
-//const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 const apiRouter = require('./apiRouter').router;
 const cors = require('cors');
 const path = require('path');
@@ -11,8 +11,7 @@ const server = express();
 server.use(express.json());
 
 // Body-Parser config
-//server.use(bodyParser.urlencoded({ extended: true }));
-//server.use(bodyParser.json());
+server.use(bodyParser.json());
 
 /**  CORS policy
 const cors=require("cors");
@@ -35,6 +34,7 @@ server.use(cors())
 
 
 server.use('/api/', apiRouter);
+server.use('/images', express.static(path.join(__dirname, 'images')))
 
 // Launch server
 server.listen(3000, function() {

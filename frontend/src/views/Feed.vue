@@ -5,6 +5,7 @@
       <h3>{{ message.title}}</h3>
       <p class="card__title">{{ message.content }}</p>
       <p>Posté le {{ message.createdAt.slice(0,10).split("-").reverse().join("/")}} </p>
+      <p>id = {{ message.id }}</p>
       <img :src="message.attachment" alt=""/>
     </div>
   </div>

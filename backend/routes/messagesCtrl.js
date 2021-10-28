@@ -2,6 +2,8 @@
 const models = require('../models');
 const asyncLib = require('async');
 const jwtUtils = require('../utils/jwt.utils');
+const fs = require('fs');
+const message = require('../models/message');
 
 // Constantes
 const TITLE_LIMIT = 1;
@@ -18,7 +20,7 @@ module.exports = {
         // Paramètres
         const title = req.body.title;
         const content = req.body.content;
-        const attachment = req.body.attachment;
+
 
        /* if (title == '' ||  content == '') {
             return res.status(400).json({ 'error': 'missing parameters' });
@@ -26,40 +28,6 @@ module.exports = {
       /*  if (title.length <= TITLE_LIMIT || content.length <= CONTENT_LIMIT) {
             return res.status(400).json({ 'error': 'invalid parameters' });
         }*/
-
-       /* models.User.findOne({
-          where: { id: userId }
-      })
-      .then(userFound => {
-          if (userFound) {
-              if (req.attachment == null) {
-                  models.Message.create({
-                      title: title,
-                      content: content,
-                      attachment: 0,
-                      likes: 0,
-                      UserId: userFound.id
-                  })
-                  .then(newMessage => res.status(201).json(newMessage))
-                  .catch(err => res.status(404).json({ error: 'user not found' }))
-              } else {
-                  models.Message.create({
-                      title: title,
-                      content: content,
-                      attachment: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-                      likes: 0,
-                      UserId: userFound.id
-                  })
-                  .then(newMessage => res.status(201).json(newMessage))
-                  .catch(err => res.status(404).json({ error: 'user not found' }))
-              }
-          } else {
-            return res.status(409).json({ 'error': 'CA MARCHE PAS' });
-          }
-      })
-      .catch(error => res.status(500).json({ error: 'unable to verify user' }))
-  },*/
-
 
         asyncLib.waterfall([
             function(done) {
@@ -73,18 +41,33 @@ module.exports = {
                 return res.status(500).json({ 'error': 'unable to verify user' });
               });
             },
+
             function(userFound, done) {
               if(userFound) {
+                if (req.file == null) {
                 models.Message.create({
-                  title  : title,
+                  title: title,
                   content: content,
-                  likes  : 0,
-                  UserId : userFound.id
+                  attachment: 0,
+                  likes: 0,
+                  UserId: userFound.id
                 })
                 .then(function(newMessage) {
                   done(newMessage);
                 });
               } else {
+                models.Message.create({
+                    title: title,
+                    content: content,
+                    attachment: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+                    likes: 0,
+                    UserId: userFound.id
+                })
+                .then(newMessage => res.status(201).json(newMessage))
+                    .catch(err => res.status(404).json({ error: 'user not found' }))
+              }
+            }
+              else {
                 res.status(404).json({ 'error': 'user not found' });
               }
             },
@@ -108,7 +91,7 @@ module.exports = {
             }
         
             models.Message.findAll({
-              order: [(order != null) ? order.split(':') : ['createdAt', 'ASC']],
+              order: [(order != null) ? order.split(':') : ['createdAt', 'DESC']],
               attributes: (fields !== '*' && fields != null) ? fields.split(',') : null,
               limit: (!isNaN(limit)) ? limit : null,
               offset: (!isNaN(offset)) ? offset : null,
@@ -126,5 +109,39 @@ module.exports = {
               console.log(err);
               res.status(500).json({ "error": "invalid fields" });
             });
-          }
+          },
+        
+          /*deleteMessages: function (req, res) {
+            models.Message.destroy(
+             {
+               where: { id: req.paramas.id },
+             })
+             .then(() => res.status(200).json({ message: "Post supprimé"}))
+             .catch(error => res.status(400).json({ error}));
+          }*/
+          deleteMessages: function (req, res) {
+
+            const Messages = models.Message;
+            const attachment = models.Message.attachment;
+
+           Messages.findOne({ 
+              where: {
+                id: req.params.id,
+              }
+            }) .then(message => {
+                if (attachment !== null) {
+                  const filename = message.attachment.split('/images/')[1];
+                  fs.unlink(`images/${filename}`, () => {
+                    Messages.destroy({ where: {id: req.params.id} })
+                    .then(() => res.status(200).json({ message: 'Post et image supprimés !' }))
+                    .catch(error => res.status(400).json({ error }))
+                  });
+                } else {
+                  Messages.destroy({ where: {id: req.params.id} })
+                    .then(() => res.status(200).json({ message: 'Post supprimé !'}))
+                    .catch(error => res.status(400).json({ error }))
+                }
+              })
+              .catch(error => res.status(500).json({ message: "Post non trouvé" }));
         }
+      }

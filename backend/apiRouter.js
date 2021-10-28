@@ -2,7 +2,9 @@
 const express = require('express');
 const usersCtrl = require('./routes/usersCtrl');
 const messagesCtrl = require('./routes/messagesCtrl');
+const multer = require('./middleware/multer-config');
 //const likesCtrl = require('./routes/likesCtrl');
+
 
 // Router
 exports.router = (function() {
@@ -15,8 +17,9 @@ exports.router = (function() {
     //apiRouter.route('/users/me/').put(usersCtrl.updateUserProfile);
 
     // Messages routes
-    apiRouter.route('/messages/new/').post(messagesCtrl.createMessage);
-    apiRouter.route('/messages/').get(messagesCtrl.listMessages);
+    apiRouter.route('/messages/new/').post(multer, messagesCtrl.createMessage);
+    apiRouter.route('/messages/').get(multer, messagesCtrl.listMessages);
+    apiRouter.route('/messages/:id/').delete(multer, messagesCtrl.deleteMessages);
 
     //Likes
    //apiRouter.route('/messages/:messagesId/vote/like').post(likesCtrl.likePost);
