@@ -113,7 +113,7 @@ module.exports = {
           oneMessage: function(req,res) {
     
             models.Message.findOne({
-                attributes: ['id', 'title', 'content', 'attachment'],
+                attributes: ['id', 'title', 'content', 'attachment', 'UserId'],
                 where: { 
                   id: req.params.id
                  }
@@ -148,8 +148,7 @@ module.exports = {
             const Messages = models.Message;
             const attachment = Messages.attachment;
             
-            
-  
+
             
            Messages.findOne({ 
               where: {
@@ -157,7 +156,7 @@ module.exports = {
               }
             }) 
             .then(message => {
-              if (message.UserId == userId) {
+              if (message.UserId == userId || isAdmin === true) {
                 if (attachment !== null) {
                   const filename = message.attachment.split('/images/')[1];
                   fs.unlink(`images/${filename}`, () => {

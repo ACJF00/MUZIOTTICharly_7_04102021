@@ -9,8 +9,9 @@
       <p>id = {{ message.id }}</p>
       <p> user id = {{ message.UserId }}</p>
       <img :src="message.attachment" alt=""/>
-      <button @click.prevent="deleteMessage(message)">Supprimer</button>
       </router-link>
+      <button v-if="message.UserId == this.$store.state.user.userId" @click.prevent="deleteMessage(message)">Supprimer</button>
+      <button v-else-if="this.$store.state.user.isAdmin == 1" @click="deleteMessage">Supprimer</button>
     </div>
   </div>
 </template>
@@ -70,3 +71,4 @@ methods: {
 </script>
 
 <style></style>
+
