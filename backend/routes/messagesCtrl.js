@@ -110,6 +110,25 @@ module.exports = {
               res.status(500).json({ "error": "invalid fields" });
             });
           },
+          oneMessage: function(req,res) {
+    
+            models.Message.findOne({
+                attributes: ['id', 'title', 'content', 'attachment'],
+                where: { 
+                  id: req.params.id
+                 }
+            })
+            .then(message => {
+                if (message) {
+                  res.status(201).json(message)
+                } else {
+                  res.status(404).json({ 'error': 'message not found' })
+                }
+              })
+              .catch(function (err) {
+                res.status(500).json({ 'error': 'cannot fetch message' })
+              })
+        },
         
           /*deleteMessages: function (req, res) {
             models.Message.destroy(
@@ -121,14 +140,24 @@ module.exports = {
           }*/
           deleteMessages: function (req, res) {
 
-            const Messages = models.Message;
-            const attachment = models.Message.attachment;
+            // Getting auth header
+            const headerAuth = req.headers['authorization'];
+            const userId = jwtUtils.getUserId(headerAuth);
+            //const messageId = req.params.UserId
 
+            const Messages = models.Message;
+            const attachment = Messages.attachment;
+            
+            
+  
+            
            Messages.findOne({ 
               where: {
                 id: req.params.id,
               }
-            }) .then(message => {
+            }) 
+            .then(message => {
+              if (message.UserId == userId) {
                 if (attachment !== null) {
                   const filename = message.attachment.split('/images/')[1];
                   fs.unlink(`images/${filename}`, () => {
@@ -141,6 +170,11 @@ module.exports = {
                     .then(() => res.status(200).json({ message: 'Post supprimé !'}))
                     .catch(error => res.status(400).json({ error }))
                 }
+              } else {
+                res.status(404).json({ 'error': 'Vous n\'avez pas les droits' });
+                console.log(message.UserId);
+                console.log(userId);
+              }
               })
               .catch(error => res.status(500).json({ message: "Post non trouvé" }));
         }

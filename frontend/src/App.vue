@@ -9,7 +9,6 @@
     <router-link to="/Profile">Profil</router-link> |
     <router-link to="/feed">Mur de messages</router-link> |
     <router-link to="/message">Poster un message</router-link> |
-    <router-link to="/login">Login</router-link>
   </nav>
 </header>
      <router-view />

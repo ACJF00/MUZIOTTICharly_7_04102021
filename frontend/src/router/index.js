@@ -4,6 +4,7 @@ import Message from '@/views/Message.vue';
 import NotFound from '@/views/NotFound.vue';
 import Profile from "@/views/Profile.vue";
 import Feed from "@/views/Feed.vue";
+import OneMessage from '@/views/OneMessage.vue';
 
 const routes = [
   {
@@ -19,7 +20,14 @@ const routes = [
         component: Message,
         meta: {
             title: 'Message'
-        },
+        }
+        },{
+            name: 'OneMessage',
+            path: '/OneMessage/:id',
+            component: OneMessage,
+            meta: {
+                title: 'OneMessage'
+            }
      }, {
         name: 'feed',
         path: '/Feed',

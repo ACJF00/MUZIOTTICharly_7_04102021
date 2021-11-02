@@ -94,6 +94,7 @@ export default {
         email: this.email,
         username: this.username,
         password: this.password,
+        bio: this.bio
       }).then(function () {
         self.login();
       }, function (error) {

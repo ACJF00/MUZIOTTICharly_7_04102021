@@ -14,8 +14,7 @@
         </div>
        <div class="item">
         <p>Ajouter une image</p>
-        <input type="file" @change="onFileSelected">
-        <button @click="onUpload">Upload</button>
+        <input type="file" ref="file" @change="onFileSelected()">
         </div>
       </form>
           <div class="test">
@@ -44,20 +43,21 @@ export default {
     }
   },
   methods: {
-/*onFileSelected(event) {
-  this.attachment = event.target.files[0]
+onFileSelected() {
+   this.attachment = this.$refs.file.files[0];
 },
-onUpload() {
-
-},*/
 submit() {
   // POST request using axios with set headers
   const token = this.$store.state.user.token
-  const data = {
-    title: this.title,
-    content: this.content,
-    attachment: this.attachment 
-    }
+  const data =  new FormData() 
+      if (this.attachment !== null) {
+      data.append('title', this.title)
+      data.append('content', this.content)
+      data.append('attachment', this.attachment)      
+      } else {
+      data.append('title', this.title)
+      data.append('content', this.content)
+      }
    const headers = { 
     "Content-Type": "application/json",
     "Authorization": `Bearer ${token}`,
@@ -65,12 +65,10 @@ submit() {
 
        axios.post("http://localhost:3000/api/messages/new", data, { headers })
 
-   .then((response) => 
+   .then(() => 
       {
-          console.log(response) 
-          {
-              this.$router.push("/feed")
-          }
+          alert("Votre message a bien été envoyé !");
+          this.$router.push("/feed");
       })
     .catch((error) => 
       {

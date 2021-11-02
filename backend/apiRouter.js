@@ -19,6 +19,7 @@ exports.router = (function() {
     // Messages routes
     apiRouter.route('/messages/new/').post(multer, messagesCtrl.createMessage);
     apiRouter.route('/messages/').get(multer, messagesCtrl.listMessages);
+    apiRouter.route('/messages/:id/').get(multer, messagesCtrl.oneMessage);
     apiRouter.route('/messages/:id/').delete(multer, messagesCtrl.deleteMessages);
 
     //Likes
