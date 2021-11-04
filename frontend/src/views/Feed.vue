@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="card" v-for="message in messages" :key="message">
-    <router-link :to="{ name: 'OneMessage', params: { id: message.id }}">
       <h1 class="card__title" >{{ message.User.username }} </h1>
+      <router-link :to="{ name: 'OneMessage', params: { id: message.id }}">
       <h3>{{ message.title}}</h3>
       <p class="card__title">{{ message.content }}</p>
       <p>Posté le {{ message.createdAt.slice(0,10).split("-").reverse().join("/")}} </p>

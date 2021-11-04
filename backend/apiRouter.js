@@ -14,6 +14,7 @@ exports.router = (function() {
     apiRouter.route('/users/register/').post(usersCtrl.register);
     apiRouter.route('/users/login/').post(usersCtrl.login);
     apiRouter.route('/users/infos/').get(usersCtrl.getUserProfile);
+    apiRouter.route('/users/:id/').delete(usersCtrl.deleteUserProfile);
     //apiRouter.route('/users/me/').put(usersCtrl.updateUserProfile);
 
     // Messages routes
@@ -24,8 +25,8 @@ exports.router = (function() {
     apiRouter.route('/messages/:id/').delete(multer, messagesCtrl.deleteMessages);
 
     //Likes
-   //apiRouter.route('/messages/:messagesId/vote/like').post(likesCtrl.likePost);
-   //apiRouter.route('/messages/:messagesId/vote/dislike').post(likesCtrl.dislikePost);
+  // apiRouter.route('/messages/:messagesid/vote/like').post(likesCtrl.likePost);
+   //apiRouter.route('/messages/:messagesid/vote/dislike').post(likesCtrl.dislikePost);
 
     return apiRouter;
 })();

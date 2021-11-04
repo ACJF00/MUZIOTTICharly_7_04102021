@@ -5,9 +5,8 @@
     <h2> {{ user.username }} || {{ user.email }}</h2>
     <p> {{ user.bio }} </p>
     <div class="form-row">
-      <button @click="logout()" class="button">
-        Déconnexion
-      </button>
+      <button @click="logout()" class="button">Déconnexion</button>
+      <button v-if="user.id == this.$store.state.user.userId" @click="deleteProfile(user)">Supprimer</button>
     </div>
   </div>
 </template>
@@ -15,7 +14,7 @@
 <script>
 
 import { mapState } from 'vuex'
-
+import axios from "axios"
 
 export default {
   name: 'Profile',
@@ -36,7 +35,31 @@ export default {
     logout: function () {
       this.$store.commit('logout');
       this.$router.push('/');
-    }
+    },
+    deleteProfile(user) {
+      const token = this.$store.state.user.token
+      //const isAdmin = this.$store.state.user.isAdmin
+      //const userId = this.$store.state.user.userId
+      const headers = { 
+        "Content-Type": "application/json",
+         Authorization: `Bearer ${token}`,
+      }
+      console.log(user.id)
+
+      axios
+              .delete(`http://localhost:3000/api/users/${user.id}`, { headers })
+          .then((res) => {
+              if (res)       {
+                  this.logout()
+                  this.$router.push("/");
+          alert("Votre profil a bien été supprimé !");
+          }
+      })
+    .catch((error) => 
+      {
+          console.log(error)
+      })
+  },
   }
 }
 </script>

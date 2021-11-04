@@ -5,6 +5,7 @@ import NotFound from '@/views/NotFound.vue';
 import Profile from "@/views/Profile.vue";
 import Feed from "@/views/Feed.vue";
 import OneMessage from '@/views/OneMessage.vue';
+//import ProfileInfos from '@/views/ProfileInfos.vue';
 
 const routes = [
   {
@@ -44,7 +45,15 @@ const routes = [
             meta: {
                 title: 'Profil'
             }
-          }, {
+          }, /*{ 
+            name: 'ProfileInfos',
+            path: '/ProfileInfos', 
+            component: ProfileInfos, 
+            props: true,
+            meta: {
+                title: 'Profil Infos'
+            }
+          }, */{
         name: 'NotFound',
         path: '/:pathMatch(.*)',
         component: NotFound,

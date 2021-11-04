@@ -81,35 +81,35 @@ module.exports = {
         },
 
         listMessages: function(req, res) {
-            const fields  = req.query.fields;
-            const limit   = parseInt(req.query.limit);
-            const offset  = parseInt(req.query.offset);
-            const order   = req.query.order;
-        
-            if (limit > ITEMS_LIMIT) {
-              limit = ITEMS_LIMIT;
+          const fields  = req.query.fields;
+          const limit   = parseInt(req.query.limit);
+          const offset  = parseInt(req.query.offset);
+          const order   = req.query.order;
+      
+          if (limit > ITEMS_LIMIT) {
+            limit = ITEMS_LIMIT;
+          }
+      
+          models.Message.findAll({
+            order: [(order != null) ? order.split(':') : ['title', 'ASC']],
+            attributes: (fields !== '*' && fields != null) ? fields.split(',') : null,
+            limit: (!isNaN(limit)) ? limit : null,
+            offset: (!isNaN(offset)) ? offset : null,
+            include: [{
+              model: models.User,
+              attributes: [ 'username' ]
+            }]
+          }).then(messages => {
+            if (messages) {
+              res.status(200).json(messages);
+            } else {
+              res.status(404).json({ "error": "no messages found" });
             }
-        
-            models.Message.findAll({
-              order: [(order != null) ? order.split(':') : ['createdAt', 'DESC']],
-              attributes: (fields !== '*' && fields != null) ? fields.split(',') : null,
-              limit: (!isNaN(limit)) ? limit : null,
-              offset: (!isNaN(offset)) ? offset : null,
-              include: [{
-                model: models.User,
-                attributes: [ 'username' ]
-              }]
-            }).then(function(messages) {
-              if (messages) {
-                res.status(200).json(messages);
-              } else {
-                res.status(404).json({ "error": "no message found" });
-              }
-            }).catch(function(err) {
-              console.log(err);
-              res.status(500).json({ "error": "invalid fields" });
-            });
-          },
+          }).catch(err => {
+            console.log(err);
+            res.status(500).json({ "error": "invalid fields" });
+          });
+        },
           oneMessage: function(req,res) {
     
             models.Message.findOne({

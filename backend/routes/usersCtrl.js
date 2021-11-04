@@ -192,5 +192,30 @@ module.exports  = {
                 return res.status(500).json({ 'error': 'cannot update user profile' });
               }
             });
-          }
+          },
+          deleteUserProfile: function (req, res) {
+
+            // Getting auth header
+            const headerAuth = req.headers['authorization'];
+            const userId = jwtUtils.getUserId(headerAuth);
+            console.log(userId)
+            
+           models.User.findOne({ 
+              where: {
+                id: req.params.id,
+              }
+            }) 
+            .then(user => {
+              if (user.id == userId || isAdmin === true) {
+                user.destroy()
+                .then(() => res.status(200).json({ message: 'Utilisateur supprimé !'}))
+                .catch(error => res.status(400).json({ error }))
+                } else {
+                res.status(404).json({ 'error': 'L\'utilisateur ne peut pas être supprimé' });
+              }
+            })
+            .catch(error => {
+              res.status(400).json({ error })
+            })
+      }
     }
