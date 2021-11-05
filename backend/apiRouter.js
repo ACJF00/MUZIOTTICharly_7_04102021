@@ -3,7 +3,7 @@ const express = require('express');
 const usersCtrl = require('./routes/usersCtrl');
 const messagesCtrl = require('./routes/messagesCtrl');
 const multer = require('./middleware/multer-config');
-//const likesCtrl = require('./routes/likesCtrl');
+const likesCtrl = require('./routes/likesCtrl');
 
 
 // Router
@@ -25,8 +25,11 @@ exports.router = (function() {
     apiRouter.route('/messages/:id/').delete(multer, messagesCtrl.deleteMessages);
 
     //Likes
-  // apiRouter.route('/messages/:messagesid/vote/like').post(likesCtrl.likePost);
-   //apiRouter.route('/messages/:messagesid/vote/dislike').post(likesCtrl.dislikePost);
+   apiRouter.route('/messages/:messageId/vote/like').post(likesCtrl.likePost);
+   //apiRouter.route('/messages/:messageId/vote/dislike').post(likesCtrl.dislikePost);
 
     return apiRouter;
 })();
+
+
+

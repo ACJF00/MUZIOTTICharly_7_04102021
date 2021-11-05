@@ -1,44 +1,64 @@
 'use strict';
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Likes', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      messageId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Messages',
-          key: 'id'
-        }
-      },
-      userId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Users',
-          key: 'id'
-        }
-      },
-      isLike : {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class Like extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+      models.User.belongsToMany(models.Message, {
+        through: models.Like,
+        foreignKey: 'userId',
+        otherKey: 'messageId',
+        //onDelete:'CASCADE',
+      });
+  
+      models.Message.belongsToMany(models.User, {
+        through: models.Like,
+        foreignKey: 'messageId',
+        otherKey: 'userId',
+       // onDelete:'CASCADE',
+      });
+  
+      models.Like.belongsTo(models.User, {
+        foreignKey: 'userId',
+        as: 'user',
+       // onDelete:'CASCADE',
     });
+  
+      models.Like.belongsTo(models.Message, {
+        foreignKey: 'messageId',
+        as: 'message',
+        //onDelete:'CASCADE',
+      });
+    };
+  };
+  Like.init({
+    messageId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Message',
+        key: 'id'
+      }
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'User',
+        key: 'id'
+      }
+    },
+    //isLike: DataTypes.INTEGER
   },
-  down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Likes');
-  }
+  {
+    sequelize,
+    modelName: 'Like',
+  });
+  return Like;
 };
+

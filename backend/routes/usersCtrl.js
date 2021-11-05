@@ -124,7 +124,7 @@ module.exports  = {
               return res.status(201).json({
                 'userId': userFound.id,
                 'token': jwtUtils.generateTokenForUser(userFound),
-                'isAdmin': userFound.isAdmin
+                'isAdmin': userFound.isAdmin,
               });
             } else {
               return res.status(500).json({ 'error': 'cannot log on user' });

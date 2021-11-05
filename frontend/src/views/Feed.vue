@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="card" v-for="message in messages" :key="message">
-      <h1 class="card__title" >{{ message.User.username }} </h1>
+      <h1 class="card__title" >  {{ message.Username }} </h1>
       <router-link :to="{ name: 'OneMessage', params: { id: message.id }}">
       <h3>{{ message.title}}</h3>
       <p class="card__title">{{ message.content }}</p>

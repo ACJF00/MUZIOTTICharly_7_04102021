@@ -50,7 +50,7 @@ module.exports = {
                   content: content,
                   attachment: 0,
                   likes: 0,
-                  UserId: userFound.id
+                  UserId: userFound.id,
                 })
                 .then(function(newMessage) {
                   done(newMessage);
@@ -61,7 +61,7 @@ module.exports = {
                     content: content,
                     attachment: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
                     likes: 0,
-                    UserId: userFound.id
+                    UserId: userFound.id,
                 })
                 .then(newMessage => res.status(201).json(newMessage))
                     .catch(err => res.status(404).json({ error: 'user not found' }))
@@ -91,14 +91,22 @@ module.exports = {
           }
       
           models.Message.findAll({
-            order: [(order != null) ? order.split(':') : ['title', 'ASC']],
-            attributes: (fields !== '*' && fields != null) ? fields.split(',') : null,
-            limit: (!isNaN(limit)) ? limit : null,
-            offset: (!isNaN(offset)) ? offset : null,
-            include: [{
-              model: models.User,
-              attributes: [ 'username' ]
-            }]
+            order: [["updatedAt", "DESC"]],
+            attributes: [
+              "id",
+              "userId",
+              "title",
+              "content",
+              "attachment",
+              "createdAt",
+              "updatedAt",
+            ],
+            include: [
+              {
+                model: models.User,
+                attributes: [ "username" ],
+              },
+            ],
           }).then(messages => {
             if (messages) {
               res.status(200).json(messages);
