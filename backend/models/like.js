@@ -11,30 +11,25 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.User.belongsToMany(models.Message, {
-        through: models.Like,
+    /*models.User.hasMany(models.Message, {
         foreignKey: 'userId',
         otherKey: 'messageId',
-        //onDelete:'CASCADE',
-      });
+      });*/
   
-      models.Message.belongsToMany(models.User, {
+      /*models.Message.belongsTo(models.User, {
         through: models.Like,
         foreignKey: 'messageId',
         otherKey: 'userId',
-       // onDelete:'CASCADE',
-      });
+      })*/
   
       models.Like.belongsTo(models.User, {
         foreignKey: 'userId',
         as: 'user',
-       // onDelete:'CASCADE',
     });
   
       models.Like.belongsTo(models.Message, {
         foreignKey: 'messageId',
         as: 'message',
-        //onDelete:'CASCADE',
       });
     };
   };

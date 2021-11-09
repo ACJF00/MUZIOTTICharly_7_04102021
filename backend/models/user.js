@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association Helper
       models.User.hasMany(models.Message)
+      models.User.hasMany(models.Like)
     }
   };
   User.init({

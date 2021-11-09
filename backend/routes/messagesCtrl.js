@@ -64,6 +64,7 @@ module.exports = {
                     UserId: userFound.id,
                 })
                 .then(newMessage => res.status(201).json(newMessage))
+                console.log(newMessage)
                     .catch(err => res.status(404).json({ error: 'user not found' }))
               }
             }
@@ -91,23 +92,21 @@ module.exports = {
           }
       
           models.Message.findAll({
-            order: [["updatedAt", "DESC"]],
-            attributes: [
-              "id",
-              "userId",
-              "title",
-              "content",
-              "attachment",
-              "createdAt",
-              "updatedAt",
-            ],
+            order: [(order != null) ? order.split(':') : ['createdAt', 'DESC']],
+            attributes: (fields !== '*' && fields != null) ? fields.split(',') : null,
+            limit: (!isNaN(limit)) ? limit : null,
+            offset: (!isNaN(offset)) ? offset : null,
             include: [
               {
                 model: models.User,
-                attributes: [ "username" ],
+                attributes: ["username", "id"],
               },
-            ],
-          }).then(messages => {
+              {
+                model: models.Like,
+                attributes: ["UserId"],
+              }]
+        })
+          .then(messages => {
             if (messages) {
               res.status(200).json(messages);
             } else {
@@ -124,7 +123,7 @@ module.exports = {
                 attributes: ['id', 'title', 'content', 'attachment', 'UserId'],
                 where: { 
                   id: req.params.id
-                 }
+                 },
             })
             .then(message => {
                 if (message) {
@@ -179,8 +178,6 @@ module.exports = {
                 }
               } else {
                 res.status(404).json({ 'error': 'Vous n\'avez pas les droits' });
-                console.log(message.UserId);
-                console.log(userId);
               }
               })
               .catch(error => res.status(500).json({ message: "Post non trouvé" }));

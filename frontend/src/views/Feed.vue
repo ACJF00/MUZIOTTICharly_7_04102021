@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="card" v-for="message in messages" :key="message">
-      <h1 class="card__title" >  {{ message.Username }} </h1>
+    <div class="card" v-for="message in messages" :key="message.id">
+      <h1 class="card__title" > {{ message.User.username }} </h1>
       <router-link :to="{ name: 'OneMessage', params: { id: message.id }}">
       <h3>{{ message.title}}</h3>
       <p class="card__title">{{ message.content }}</p>
@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       messages: [],
-      id: this.$route.params.id,
+      userId: this.$store.state.user.userId,
     }
   },
   mounted() {

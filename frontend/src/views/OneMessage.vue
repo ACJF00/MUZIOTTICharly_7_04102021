@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="card">
+    <h1>{{ messages.username }}</h1>
       <h1>{{ messages.title }}</h1>
       <h3>{{ messages.content }}</h3>
       <img :src="messages.attachment" alt=""/>
@@ -39,7 +40,6 @@ export default {
   },
         deleteMessage() {
       const token = this.$store.state.user.token
-      //const isAdmin = this.$store.state.user.isAdmin
       const messageId = this.$route.params.id
       const headers = { 
         "Content-Type": "application/json",

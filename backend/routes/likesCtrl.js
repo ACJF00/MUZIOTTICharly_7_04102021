@@ -8,7 +8,7 @@ const DISLIKED = 0;
 const LIKED    = 1;
 
 // Routes
-module.exports = {
+/*module.exports = {
 likePost: function(req, res) {
   models.Message.findOne({
     where: {
@@ -65,13 +65,11 @@ likePost: function(req, res) {
   })
   .catch((error) => res.status(500).json({ error }));
 }
-}
+}*/
 
 
 
-
-
-/*module.exports = {
+module.exports = {
   likePost: function(req, res) {
     // Getting auth header
     const headerAuth  = req.headers['authorization'];
@@ -93,7 +91,7 @@ likePost: function(req, res) {
           done(null, messageFound);
         })
         .catch(function(err) {
-          return res.status(500).json({ 'error': 'unable to verify message' });
+          return res.status(404).json({ 'error': 'unable to verify message' });
         });
       },
       function(messageFound, done) {
@@ -105,10 +103,10 @@ likePost: function(req, res) {
             done(null, messageFound, userFound);
           })
           .catch(function(err) {
-            return res.status(500).json({ 'error': 'unable to verify user' });
+            return res.status(404).json({ 'error': 'unable to verify user' });
           });
         } else {
-          res.status(404).json({ 'error': 'post already liked' });
+          res.status(404).json({ 'error': 'Message pas trouvé' });
         }
       },
       function(messageFound, userFound, done) {
@@ -120,6 +118,7 @@ likePost: function(req, res) {
             }
           })
           .then(function(userAlreadyLikedFound) {
+            console.log(messageFound, userFound, userAlreadyLikedFound)
             done(null, messageFound, userFound, userAlreadyLikedFound);
           })
           .catch(function(err) {
@@ -130,37 +129,23 @@ likePost: function(req, res) {
         }
       },
       function(messageFound, userFound, userAlreadyLikedFound, done) {
-        if(!userAlreadyLikedFound) {
-          messageFound.addUser(userFound, { isLike: LIKED })
-          .then(function (alreadyLikeFound) {
-            done(null, messageFound, userFound);
-          })
-          .catch(function(err) {
-            console.log(err.message)
-            return res.status(500).json({ 'error': 'unable to set user reaction' });
+        if(userAlreadyLikedFound === null) {
+          messageFound.update({
+            likes: messageFound.likes + 1,
+          }).then(function() {
+            done(messageFound);
+          }).catch(function(err) {
+            res.status(500).json({ 'error': 'cannot update message like counter' });
           });
         } else {
-          if (userAlreadyLikedFound.isLike === DISLIKED) {
-            userAlreadyLikedFound.update({
-              isLike: LIKED,
-            }).then(function() {
-              done(null, messageFound, userFound);
-            }).catch(function(err) {
-              res.status(500).json({ 'error': 'cannot update user reaction' });
-            });
-          } else {
-            res.status(409).json({ 'error': 'message already liked' });
-          }
+          messageFound.update({
+            likes: messageFound.likes - 1,
+          }).then(function() {
+            done(messageFound);
+          }).catch(function(err) {
+            res.status(500).json({ 'error': 'cannot update message like counter' });
+          });
         }
-      },
-      function(messageFound, userFound, done) {
-        messageFound.update({
-          likes: messageFound.likes + 1,
-        }).then(function() {
-          done(messageFound);
-        }).catch(function(err) {
-          res.status(500).json({ 'error': 'cannot update message like counter' });
-        });
       },
     ], function(messageFound) {
       if (messageFound) {
@@ -170,7 +155,7 @@ likePost: function(req, res) {
       }
     });
   },
-  dislikePost: function(req, res) {
+  /*dislikePost: function(req, res) {
    // Getting auth header
    const headerAuth  = req.headers['authorization'];
    const userId      = jwtUtils.getUserId(headerAuth);
@@ -266,5 +251,5 @@ likePost: function(req, res) {
        return res.status(500).json({ 'error': 'cannot update message' });
      }
    });
-  }
-}*/
+  }*/
+}
