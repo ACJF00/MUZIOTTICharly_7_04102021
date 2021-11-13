@@ -1,16 +1,15 @@
 <template>
   <div class="comment">
-   <div class="feedComments" v-for="comment in comments" :key="comment.id">
-        <h1>{{ comment.content }}</h1>
-      <button v-if="comment.UserId == this.$store.state.user.userId" @click="deleteComment">Supprimer</button>
-      <button v-else-if="this.$store.state.user.isAdmin == 1" @click="deleteComment">Supprimer</button>
-      </div>
-  <div class="createComment">
-          <p>Commentaire</p>
+   <div class="createComment">
           <textarea v-model="content"></textarea>
         </div>
     <button @click="createComment(content)">Commenter</button>
   </div>
+   <div class="feedComments" v-for="comment in comments" :key="comment.id">
+        <h1>{{ comment.content }} </h1>
+      <button v-if="comment.UserId == this.$store.state.user.userId" @click="deleteComment(comment)">Supprimer</button>
+      <button v-else-if="this.$store.state.user.isAdmin == 1" @click="deleteComment(comment)">Supprimer</button>
+      </div>
 </template>
 
 <script>
@@ -64,9 +63,8 @@ createComment(content) {
         console.log(error)
       })
   },
-         deleteComment() {
+         deleteComment(comment) {
       const token = this.$store.state.user.token
-      const comment = this.comments.data
       const id = comment.id
       const headers = { 
         "Content-Type": "application/json",

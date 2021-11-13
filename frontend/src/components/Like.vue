@@ -1,7 +1,7 @@
 <template>
   <div class="like">
     <button @click="createLike">Liker</button>
-    <p>Likes {{ message.likes }}</p>
+    <p>Likes {{ message.like }}</p>
   </div>
 </template>
 
@@ -29,23 +29,21 @@ export default {
   methods: {
     createLike() {
       const messageId = this.$route.params.id
+    
       const token = this.$store.state.user.token
+      const headers = { 
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    }
+
       axios
         .post(
-          `http://localhost:3000/api/messages/${messageId}/vote/like`,
-          {},
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .then((result) => {
-          if (result.data.message == "Message liked !") {
+          `http://localhost:3000/api/messages/${messageId}/vote/like`, {}, { headers })
+        .then((response) => {
+          if (response.data.message == "Message liked !") {
             alert("Message liked !")
             this.$router.push("/feed");
-          } else if (result.data.message == "I no longer like this message !") {
+          } else if (response.data.message == "I no longer like this message !") {
             alert("Message no longer liked !")
             this.$router.push("/feed");
           }

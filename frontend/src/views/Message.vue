@@ -3,14 +3,12 @@
       <form class="createMessage">
         <h1>Poster un nouveau message</h1>
         <div class="item">
-          <p>Title</p>
           <div>
             <input type="text" placeholder="Title" v-model="title"/>
           </div>
         </div>
         <div class="item">
-          <p>Message</p>
-          <textarea v-model="content"></textarea>
+          <textarea placeholder="Message" v-model="content"></textarea>
         </div>
        <div class="item">
         <p>Ajouter une image</p>

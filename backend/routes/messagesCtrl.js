@@ -35,6 +35,7 @@ module.exports = {
                 where: { id: userId }
               })
               .then(function(userFound) {
+                console.log(userId)
                 done(null, userFound);
               })
               .catch(function(err) {
@@ -64,7 +65,6 @@ module.exports = {
                     UserId: userFound.id,
                 })
                 .then(newMessage => res.status(201).json(newMessage))
-                console.log(newMessage)
                     .catch(err => res.status(404).json({ error: 'user not found' }))
               }
             }
