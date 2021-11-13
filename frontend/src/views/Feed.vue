@@ -1,15 +1,14 @@
 <template>
   <div>
+  <Message />
     <div class="card" v-for="message in messages" :key="message.id">
       <h1 class="card__title" > {{ message.User.username }} </h1>
       <router-link :to="{ name: 'OneMessage', params: { id: message.id }}">
       <h3>{{ message.title}}</h3>
       <p class="card__title">{{ message.content }}</p>
-      <p>Posté le {{ message.createdAt.slice(0,10).split("-").reverse().join("/")}} </p>
-      <p>id = {{ message.id }}</p>
-      <p> user id = {{ message.UserId }}</p>
       <img :src="message.attachment" alt=""/>
       </router-link>
+      <p>Posté le {{ message.createdAt.slice(0,10).split("-").reverse().join("/")}} </p>
       <button v-if="message.UserId == this.$store.state.user.userId" @click.prevent="deleteMessage(message)">Supprimer</button>
       <button v-else-if="this.$store.state.user.isAdmin == 1" @click="deleteMessage">Supprimer</button>
     </div>
@@ -19,9 +18,11 @@
 <script>
 
 import axios from "axios"
+import Message from "@/components/Message"
 
 export default {
   name: 'Feed',
+  components: { Message },
 
   data() {
     return {

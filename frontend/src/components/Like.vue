@@ -1,7 +1,7 @@
 <template>
   <div class="like">
     <button @click="createLike">Liker</button>
-    <p>Likes {{ message.like }}</p>
+    <p>Likes {{ messages.likes }}</p>
   </div>
 </template>
 
@@ -11,7 +11,7 @@ export default {
   name: "Like",
   data() {
     return {
-      message: [],
+      messages: [],
     }
   },
   mounted() {

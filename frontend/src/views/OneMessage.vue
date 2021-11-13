@@ -64,7 +64,7 @@ export default {
           console.log(error)
       })
   },
-  modifyMessage() {
+  /*modifyMessage() {
       const token = this.$store.state.user.token
       const messageId = this.$route.params.id
       const headers = { 
@@ -82,7 +82,7 @@ export default {
         .catch((error) => {
          console.log(error.message)
         })
-    }
+    }*/
   },
 }
 </script>

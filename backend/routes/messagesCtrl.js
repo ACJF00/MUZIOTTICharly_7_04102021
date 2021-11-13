@@ -35,7 +35,6 @@ module.exports = {
                 where: { id: userId }
               })
               .then(function(userFound) {
-                console.log(userId)
                 done(null, userFound);
               })
               .catch(function(err) {
@@ -120,7 +119,7 @@ module.exports = {
           oneMessage: function(req,res) {
     
             models.Message.findOne({
-                attributes: ['id', 'title', 'content', 'attachment', 'UserId'],
+                attributes: ['id', 'title', 'content', 'attachment', 'UserId', 'likes'],
                 where: { 
                   id: req.params.id
                  },
@@ -142,14 +141,6 @@ module.exports = {
               })
         },
         
-          /*deleteMessages: function (req, res) {
-            models.Message.destroy(
-             {
-               where: { id: req.paramas.id },
-             })
-             .then(() => res.status(200).json({ message: "Post supprimé"}))
-             .catch(error => res.status(400).json({ error}));
-          }*/
           deleteMessages: function (req, res) {
 
             // Getting auth header

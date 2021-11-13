@@ -63,7 +63,7 @@ createComment(content) {
         console.log(error)
       })
   },
-         deleteComment(comment) {
+    deleteComment(comment) {
       const token = this.$store.state.user.token
       const id = comment.id
       const headers = { 
