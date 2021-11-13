@@ -8,68 +8,77 @@ const DISLIKED = 0;
 const LIKED    = 1;
 
 // Routes
-/*module.exports = {
-likePost: function(req, res) {
-  models.Message.findOne({
-    where: {
-      userId: userId,
-      messageId: messageId,
-    }
-  })
-  .then((message) => {
-    if (req.body.like === 1){
-      if (!message.usersLiked.includes(req.body.userId)){
-        message.usersLiked.push(req.body.userId)
-        message.likes++;
-        message.save()
-        .then(() => res.status(201).json({ message: "Sauce likée" }))
-        .catch((error) => res.status(400).json({ error }));
-      } else {
-        res.status(403).json({ message: "You can't like the same sauce twice"})
-        .catch((error) => res.status(400).json({ error }));
-      }
-    }
-  
-    else if (req.body.like === -1) {
-      if (!message.usersDisliked.includes(req.body.userId)){
-        message.usersDisliked.push(req.body.userId)
-        message.dislikes++;
-        message.save()
-        .then(() => res.status(201).json({ message: "Sauce dislikée" }))
-        .catch((error) => res.status(400).json({ error }));
-      }
-      else {
-        res.status(403).json({ message: "You can't dislike the same sauce twice"})
-        .catch((error) => res.status(400).json({ error }));
-      }
-    } 
 
-    else if (req.body.like === 0) {
-      if (message.usersLiked.includes(req.body.userId)){
-        message.usersLiked.pull(req.body.userId)
-        message.likes--
-        message.save()
-        .then(() => res.status(201).json({ message: "Sauce unlikée" }))
-        .catch((error) => res.status(400).json({ error }));
-      } else if (message.usersDisliked.includes(req.body.userId)) {
-        message.usersDisliked.pull(req.body.userId)
-        message.dislikes--;
-        message.save()
-        .then(() => res.status(201).json({ message: "Sauce undislikée" }))
-        .catch((error) => res.status(400).json({ error }));
-      } else {
-        res.status(403).json({ message: "You didn't interact with the sauce yet"})
-        .catch((error) => res.status(400).json({ error }));
-      }
-    }
-  })
-  .catch((error) => res.status(500).json({ error }));
-}
-}*/
+const liked = 1
+const disliked = -1
 
-
-
+// Routes
 module.exports = {
+  // LIKE, UNLIKE Message  ***********************************************************************
+
+    likePost: function(req, res) {
+        const headerAuth = req.headers['authorization']
+        const userId     = jwtUtils.getUserId(headerAuth)
+
+        const messageId = req.params.messageId
+        
+        models.Message.findOne({ where: { id: messageId }})
+        .then(messageFound => {
+            models.Like.findOne({
+                where: {
+                    messageId: messageFound.id,
+                    userId: userId
+                }
+            })
+            .then(likeFound => {
+                if (!likeFound) {
+                    models.Like.create({
+                        messageId: messageId,
+                        userId: userId,
+                    })
+                    .then(() => {
+                        messageFound.update({
+                            likes: messageFound.likes + liked
+                        })
+                        .then(() => {
+                            return res.status(201).json({ 'message': 'Message liked !', likeFound })
+                        })
+                        .catch(error => {
+                            res.status(400).json({ error })
+                        })
+                    })
+                    .catch(error => {
+                        res.status(500).json({ 'message': 'Message already liked !' })
+                    })
+                } else {
+                    likeFound.destroy()
+                    .then(() => {
+                        messageFound.update({
+                            likes: messageFound.likes + disliked
+                        })
+                        .then(() => {
+                            res.status(201).json({ 'message': 'I no longer like this message !', likeFound })
+                        })
+                        .catch(error => {
+                            res.status(400).json({ error })
+                        })
+                    })
+                    .catch(() => {
+                        res.status(500).json({ 'message': 'Unable to dislike message !' })
+                    })
+                }
+            })
+            .catch(error => {
+                res.status(404).json({ 'message': 'Unable to find like !' })
+            })
+        })
+        .catch(error => {
+            res.status(400).json({ message: 'unable to find message !' })
+        })
+      }
+    }
+
+/*module.exports = {
   likePost: function(req, res) {
     // Getting auth header
     const headerAuth  = req.headers['authorization'];
@@ -129,7 +138,8 @@ module.exports = {
         }
       },
       function(messageFound, userFound, userAlreadyLikedFound, done) {
-        if(userAlreadyLikedFound === null) {
+        console.log(userFound)
+        if(userFound && userAlreadyLikedFound === null) {
           messageFound.update({
             likes: messageFound.likes + 1,
           }).then(function() {
@@ -155,6 +165,12 @@ module.exports = {
       }
     });
   },
+}
+
+
+
+
+
   /*dislikePost: function(req, res) {
    // Getting auth header
    const headerAuth  = req.headers['authorization'];
@@ -252,4 +268,3 @@ module.exports = {
      }
    });
   }*/
-}

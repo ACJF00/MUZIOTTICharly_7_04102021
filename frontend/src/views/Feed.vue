@@ -22,6 +22,7 @@ import axios from "axios"
 
 export default {
   name: 'Feed',
+
   data() {
     return {
       messages: [],
@@ -65,7 +66,26 @@ methods: {
       {
           console.log(error)
       })
-  }
+  },
+        likePost(message) {
+      const userId = this.$store.state.user.userId;
+      const token = this.$store.state.user.token
+      const messageId = message.id
+      const headers = { 
+        "Content-Type": "application/json",
+         Authorization: `Bearer ${token}`,
+      }
+      this.$store
+
+           axios
+              .post(`http://localhost:3000/api/messages/${messageId}/vote/like`, { headers })
+        .dispatch("addLikes", {
+          userId: userId,
+          messageId: message.id,
+          like: 1,
+        })
+        .then((response) => console.log(response));
+    },
 }
 }
 </script>

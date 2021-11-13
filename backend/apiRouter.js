@@ -4,6 +4,7 @@ const usersCtrl = require('./routes/usersCtrl');
 const messagesCtrl = require('./routes/messagesCtrl');
 const multer = require('./middleware/multer-config');
 const likesCtrl = require('./routes/likesCtrl');
+const commentsCtrl = require('./routes/commentsCtrl');
 
 
 // Router
@@ -27,6 +28,12 @@ exports.router = (function() {
     //Likes
    apiRouter.route('/messages/:messageId/vote/like').post(likesCtrl.likePost);
    //apiRouter.route('/messages/:messageId/vote/dislike').post(likesCtrl.dislikePost);
+
+   //Comments
+   apiRouter.route('/messages/:messageId/comment/new').post( commentsCtrl.createComment);
+   apiRouter.route('/messages/:messageId/comments/').get(multer, commentsCtrl.listComments);
+   apiRouter.route('/messages/comment/:id').get( commentsCtrl.oneComment);
+   apiRouter.route('/messages/comment/:id').delete( commentsCtrl.deleteComment);
 
     return apiRouter;
 })();

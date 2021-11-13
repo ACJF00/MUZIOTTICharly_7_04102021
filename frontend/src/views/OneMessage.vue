@@ -1,12 +1,14 @@
 <template>
   <div>
     <div class="card">
-    <h1>{{ messages.username }}</h1>
-      <h1>{{ messages.title }}</h1>
-      <h3>{{ messages.content }}</h3>
-      <img :src="messages.attachment" alt=""/>
-      <button v-if="messages.UserId == this.$store.state.user.userId" @click="deleteMessage">Supprimer</button>
+    <h1>{{ message.User }}</h1>
+      <h1>{{ message.title }}</h1>
+      <h3>{{ message.content }}</h3>
+      <img :src="message.attachment" alt=""/>
+      <button v-if="message.UserId == this.$store.state.user.userId" @click="deleteMessage">Supprimer</button>
       <button v-else-if="this.$store.state.user.isAdmin == 1" @click="deleteMessage">Supprimer</button>
+            <Comment />
+      <Like />
     </div>
   </div>
 </template>
@@ -14,12 +16,15 @@
 <script>
 
 import axios from "axios"
+import Like from "@/components/Like"
+import Comment from "@/components/Comment"
 
 export default {
   name: 'OneMessage',
+  components: { Like, Comment },
   data() {
     return {
-      messages: [],
+      message: [],
     }
   },
   mounted() {
@@ -32,7 +37,7 @@ export default {
     axios
       .get(`http://localhost:3000/api/messages/${messageId}`)
       .then((response) => {
-        this.messages = response.data
+        this.message = response.data
       })
       .catch((error) => {
         console.log(error)
