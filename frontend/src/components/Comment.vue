@@ -6,9 +6,11 @@
     <button @click="createComment(content)">Commenter</button>
   </div>
    <div class="feedComments" v-for="comment in comments" :key="comment.id">
-        <h1>{{ comment.content }} </h1>
-      <button v-if="comment.UserId == this.$store.state.user.userId" @click="deleteComment(comment)">Supprimer</button>
-      <button v-else-if="this.$store.state.user.isAdmin == 1" @click="deleteComment(comment)">Supprimer</button>
+   <div class="deletePost">
+        <font-awesome-icon icon="times" v-if="comment.UserId == this.$store.state.user.userId" @click="deleteComment(comment)" /> 
+        <font-awesome-icon icon="times" v-else-if="this.$store.state.user.isAdmin == 1" @click="deleteComment(comment)" />
+  </div>
+        <h1 class="displayComment">{{ comment.content }} </h1> 
       </div>
 </template>
 
@@ -88,3 +90,10 @@ createComment(content) {
 }
 
 </script>
+
+<style>
+.displayComment{
+  font-size: 0.8em;
+  font-weight: normal;
+}
+</style>

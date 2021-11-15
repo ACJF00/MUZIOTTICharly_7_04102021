@@ -1,7 +1,7 @@
 <template>
   <div class="like">
-    <button @click="createLike">Liker</button>
-    <p>Likes {{ messages.likes }}</p>
+    <font-awesome-icon icon="heart" @click="createLike" /> 
+    <p>{{ messages.likes }}</p>
   </div>
 </template>
 
@@ -60,12 +60,7 @@ export default {
 <style scoped>
 .like {
   color: red;
-  font-size: 2rem;
-  transform-style: 4s;
-}
-.unlike {
-  color: green;
-  font-size: 2rem;
+  font-size: 1rem;
   transform-style: 4s;
 }
 </style>

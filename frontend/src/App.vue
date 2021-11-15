@@ -1,14 +1,14 @@
 <template>
 <header>
 	<div class="overlay">
-<h1>Groupomania</h1>
-<h3>Bienvenue sur le réseau social de Groupomania</h3>
+    <img alt="Groupomania banner" src="./assets/icon-left-font-monochrome-white.png">
+    <h3>Bienvenue sur le réseau social de Groupomania</h3>
 	<br>
 		</div>
     <nav>
     <router-link to="/Profile">Profil</router-link> |
     <router-link to="/feed">Mur de messages</router-link> |
-    <router-link to="/message">Poster un message</router-link> |
+    <router-link to="/message">Poster un message</router-link>
   </nav>
 </header>
      <router-view />
@@ -45,11 +45,10 @@ header {
 header .overlay{
 	width: 100%;
 	height: 100%;
-	padding: 50px;
 	color: #FFF;
 	text-shadow: 1px 1px 1px #333;
   background-image: linear-gradient( 135deg, #9f05ff69 10%, #fd5e086b 100%);
-	
+	margin: 10px
 }
 
 header h1 {
@@ -74,6 +73,8 @@ body {
 img {
   max-width: 100%;
   border-radius: 8px;
+  height: 10em;
+  width: auto
 }
 .card {
   max-width: 100%;
@@ -81,6 +82,7 @@ img {
   background:white;
   border-radius: 16px;
   padding:32px;
+  display: flex;
 }
 .card__title {
   text-align:center;
@@ -120,5 +122,8 @@ img {
   .button--disabled:hover {
     cursor:not-allowed;
     background:#cecece;
+  }
+  nav {
+    margin-bottom: 30px
   }
 </style>

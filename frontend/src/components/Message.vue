@@ -3,20 +3,17 @@
       <form class="createMessage">
         <div class="item">
           <div>
-            <input type="text" placeholder="Title" v-model="title"/>
+            <input id="fillBlock" type="text" placeholder="Title" v-model="title"/>
           </div>
         </div>
         <div class="item">
-          <textarea placeholder="Nouveau message" v-model="content"></textarea>
+          <textarea id="fillBlock" placeholder="Nouveau message" v-model="content"></textarea>
         </div>
        <div class="item">
-        <p>Ajouter une image</p>
         <input type="file" ref="file" @change="onFileSelected()">
         </div>
+        <button @click="submit">Publier</button>
       </form>
-          <div class="test">
-          <button @click="submit">Publier</button>
-        </div>
     </div>
 </template>
 
@@ -75,3 +72,33 @@ submit() {
   }
 }
 </script>
+
+<style>
+.newMessage{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.createMessage {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width:100%;
+    background-color: #76F2EC;
+    border-radius: 20px;
+    padding: 5px
+}
+
+.item {
+    padding: 5px;
+    width: 70%;
+}
+
+.item #fillBlock {
+    width: 100%;
+    border-radius: 5px;
+}
+</style>

@@ -2,15 +2,17 @@
   <div>
   <Message />
     <div class="card" v-for="message in messages" :key="message.id">
-      <h1 class="card__title" > {{ message.User.username }} </h1>
+    <div class="deletePost">
+      <font-awesome-icon icon="times" v-if="message.UserId == this.$store.state.user.userId" @click="deleteMessage(message)" /> 
+      <font-awesome-icon icon="times" v-else-if="this.$store.state.user.isAdmin == 1" @click="deleteMessage(message)" /> 
+      </div>
       <router-link :to="{ name: 'OneMessage', params: { id: message.id }}">
-      <h3>{{ message.title}}</h3>
-      <p class="card__title">{{ message.content }}</p>
+      <h1 class="card__title">{{ message.title}}</h1>
+      <h3 class="card__username" > By {{ message.User.username }} </h3>
+      <p class="card__content">{{ message.content }}</p>
       <img :src="message.attachment" alt=""/>
       </router-link>
-      <p>Posté le {{ message.createdAt.slice(0,10).split("-").reverse().join("/")}} </p>
-      <button v-if="message.UserId == this.$store.state.user.userId" @click.prevent="deleteMessage(message)">Supprimer</button>
-      <button v-else-if="this.$store.state.user.isAdmin == 1" @click="deleteMessage">Supprimer</button>
+      <p id="datePost">Posté le {{ message.createdAt.slice(0,10).split("-").reverse().join("/")}} </p>
     </div>
   </div>
 </template>
@@ -91,5 +93,38 @@ methods: {
 }
 </script>
 
-<style></style>
+<style>
+a { 
+  text-decoration: none; 
+  }
+.card__username {
+  font-size: 0.7em;
+  display: flex;
+  justify-content: right;
+  width: 90%;
+  font-weight: normal;
+}
+.card__title{
+  font-size: 2em;
+} 
+.card__content{
+  font-size: 1.5em;
+  text-align: center;
+  margin: 20px;
+} 
+
+.deletePost {
+  display: flex;
+  justify-content: right;
+  width: 100%;
+  margin: -1em;
+}
+
+#datePost{
+  font-size: 0.7em;
+  justify-content: right;
+  display: flex;
+  margin: 0;
+}
+</style>
 

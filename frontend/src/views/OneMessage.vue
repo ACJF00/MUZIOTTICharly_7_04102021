@@ -1,12 +1,14 @@
 <template>
   <div>
     <div class="card">
-    <h1>{{ message.User }}</h1>
-      <h1>{{ message.title }}</h1>
-      <h3>{{ message.content }}</h3>
+    <div class="deletePost">
+      <font-awesome-icon icon="times" v-if="message.UserId == this.$store.state.user.userId" @click="deleteMessage" /> 
+      <font-awesome-icon icon="times" v-else-if="this.$store.state.user.isAdmin == 1" @click="deleteMessage" /> 
+      </div>
+      <h1 class="card__username">{{ message.User }}</h1>
+      <h1 class="card__title">{{ message.title }}</h1>
+      <h3 class="card__content">{{ message.content }}</h3>
       <img :src="message.attachment" alt=""/>
-      <button v-if="message.UserId == this.$store.state.user.userId" @click="deleteMessage">Supprimer</button>
-      <button v-else-if="this.$store.state.user.isAdmin == 1" @click="deleteMessage">Supprimer</button>
             <Comment />
       <Like />
     </div>
@@ -86,3 +88,29 @@ export default {
   },
 }
 </script>
+
+
+<style>
+
+.card__username {
+  font-size: 0.7em;
+  display: flex;
+  justify-content: right;
+  width: 90%;
+  font-weight: normal;
+}
+.card__title{
+  font-size: 2em;
+} 
+.card__content{
+  font-size: 1.5em;
+  text-align: center;
+  margin: 20px;
+} 
+.deletePost {
+  display: flex;
+  justify-content: right;
+  width: 100%;
+  margin: -1em;
+}
+</style>
