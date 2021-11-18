@@ -1,4 +1,5 @@
 <template>
+<link rel="shortcut icon" type="image/png" href="/favicon.png"/>
 <header>
 	<div class="overlay">
     <img alt="Groupomania banner" src="./assets/icon-left-font-monochrome-white.png">
@@ -12,13 +13,16 @@
   </nav>
 </header>
      <router-view />
+     <Footer />
 </template>
 
 <script>
+
+import Footer from "@/components/Footer"
+
 export default {
   name: 'App',
-  components: {
-  }
+  components: { Footer }
 }
 </script>
 
@@ -33,7 +37,6 @@ export default {
 
 
 header {
-  background-image: url("../src/assets/icon-left-font-monochrome-black.png");
 	text-align: center;
 	width: 100%;
 	height: auto;
@@ -48,7 +51,8 @@ header .overlay{
 	color: #FFF;
 	text-shadow: 1px 1px 1px #333;
   background-image: linear-gradient( 135deg, #9f05ff69 10%, #fd5e086b 100%);
-	margin: 10px
+	margin: 10px;
+  border-radius: 16px;
 }
 
 header h1 {
@@ -82,7 +86,9 @@ img {
   background:white;
   border-radius: 16px;
   padding:32px;
+  padding-top: 10px;
   display: flex;
+  box-shadow: 2px 2px 5px black;
 }
 .card__title {
   text-align:center;
@@ -124,6 +130,6 @@ img {
     background:#cecece;
   }
   nav {
-    margin-bottom: 30px
+    margin-bottom: 10px
   }
 </style>

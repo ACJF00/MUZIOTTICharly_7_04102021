@@ -6,12 +6,12 @@
     <button @click="createComment(content)">Commenter</button>
   </div>
    <div class="feedComments" v-for="comment in comments" :key="comment.id">
-   <div class="deletePost">
+   <div class="displayComment">
         <font-awesome-icon icon="times" v-if="comment.UserId == this.$store.state.user.userId" @click="deleteComment(comment)" /> 
         <font-awesome-icon icon="times" v-else-if="this.$store.state.user.isAdmin == 1" @click="deleteComment(comment)" />
-  </div>
-        <h1 class="displayComment">{{ comment.content }} </h1> 
+        <h1 class="oneComment">{{ comment.content }} </h1> 
       </div>
+        </div>
 </template>
 
 <script>
@@ -45,9 +45,8 @@ createComment(content) {
 
    .then((response) => 
       {
-          this.comment = response.data
-          alert("Votre commentaire a bien été envoyé !");
-          this.$router.push("/feed");
+          this.comment = response.data 
+          this.$router.go()	
       })
     .catch((error) => 
       {
@@ -77,8 +76,7 @@ createComment(content) {
               .delete(`http://localhost:3000/api/messages/comment/${id}`, { headers })
           .then((res) => {
               if (res)       {
-                    this.$router.push("/feed");
-          alert("Votre commentaire a bien été supprimé !");
+                    this.$router.go()	
           }
       })
     .catch((error) => 
@@ -92,8 +90,22 @@ createComment(content) {
 </script>
 
 <style>
+
+.newMessage{
+  box-shadow: 3px 3px 3px black;
+  border-radius: 10px;
+}
 .displayComment{
-  font-size: 0.8em;
+  font-size: 0.6em;
   font-weight: normal;
+  display: flex;
+  justify-content: center;
+  border: solid 0.5px;
+  border-radius: 10px;
+  margin: 1em;
+  flex-direction: row;
+  background-color: #E8EDF3;
+  width: 80%;
+  align-items: center;
 }
 </style>

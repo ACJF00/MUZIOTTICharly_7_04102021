@@ -10,9 +10,9 @@
           <textarea id="fillBlock" placeholder="Nouveau message" v-model="content"></textarea>
         </div>
        <div class="item">
-        <input type="file" ref="file" @change="onFileSelected()">
+        <input type="file" ref="file" @change="onFileSelected(message)">
         </div>
-        <button @click="submit">Publier</button>
+        <button @click="submit(this.message)">Publier</button>
       </form>
     </div>
 </template>
@@ -25,9 +25,11 @@ export default {
   name: "message",
     data() {
         return {
-            title: "",
-            content: "",
-            attachment: null
+          message: {
+           'title': "",
+           'content': "",
+           'attachment': null
+        }
         }
     },
      mounted() {
@@ -62,7 +64,7 @@ submit() {
    .then(() => 
       {
           alert("Votre message a bien été envoyé !");
-          window.location.reload(true);
+          this.$router.push("/feed");
       })
     .catch((error) => 
       {

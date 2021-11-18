@@ -7,7 +7,7 @@ const message = require('../models/message');
 
 // Constantes
 const TITLE_LIMIT = 1;
-const CONTENT_LIMIT = 40;
+const CONTENT_LIMIT = 5;
 const ITEMS_LIMIT   = 50;
 
 // Routes
@@ -22,12 +22,12 @@ module.exports = {
         const content = req.body.content;
 
 
-       /* if (title == '' ||  content == '') {
-            return res.status(400).json({ 'error': 'missing parameters' });
+       if (title == '' ||  content == '') {
+            return res.status(400).json({ 'error': 'Missing title or content' });
         }
-      /*  if (title.length <= TITLE_LIMIT || content.length <= CONTENT_LIMIT) {
-            return res.status(400).json({ 'error': 'invalid parameters' });
-        }*/
+      if (title.length <= TITLE_LIMIT || content.length <= CONTENT_LIMIT) {
+            return res.status(400).json({ 'error': 'Title or content too short' });
+        }
 
         asyncLib.waterfall([
             function(done) {
@@ -109,7 +109,7 @@ module.exports = {
             if (messages) {
               res.status(200).json(messages);
             } else {
-              res.status(404).json({ "error": "no messages found" });
+              res.status(404).json({ "error": "Messages not found" });
             }
           }).catch(err => {
             console.log(err);
@@ -131,9 +131,9 @@ module.exports = {
             })
             .then(message => {
                 if (message) {
-                  res.status(201).json(message)
+                  res.status(200).json(message)
                 } else {
-                  res.status(404).json({ 'error': 'message not found' })
+                  res.status(404).json({ 'error': 'Message not found' })
                 }
               })
               .catch(function (err) {

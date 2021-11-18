@@ -5,12 +5,14 @@
       <font-awesome-icon icon="times" v-if="message.UserId == this.$store.state.user.userId" @click="deleteMessage" /> 
       <font-awesome-icon icon="times" v-else-if="this.$store.state.user.isAdmin == 1" @click="deleteMessage" /> 
       </div>
-      <h1 class="card__username">{{ message.User }}</h1>
+      <h1 class="card__username">By {{ message.User?.username }}</h1>
       <h1 class="card__title">{{ message.title }}</h1>
       <h3 class="card__content">{{ message.content }}</h3>
+      <div v-if="message.attachment !== null">
       <img :src="message.attachment" alt=""/>
+      </div>
+            <Like />
             <Comment />
-      <Like />
     </div>
   </div>
 </template>

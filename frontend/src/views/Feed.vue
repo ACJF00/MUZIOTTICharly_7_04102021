@@ -1,7 +1,8 @@
 <template>
   <div>
-  <Message />
+  <CreateMessage />
     <div class="card" v-for="message in messages" :key="message.id">
+    <div class="displayMessage">
     <div class="deletePost">
       <font-awesome-icon icon="times" v-if="message.UserId == this.$store.state.user.userId" @click="deleteMessage(message)" /> 
       <font-awesome-icon icon="times" v-else-if="this.$store.state.user.isAdmin == 1" @click="deleteMessage(message)" /> 
@@ -11,20 +12,24 @@
       <h3 class="card__username" > By {{ message.User.username }} </h3>
       <p class="card__content">{{ message.content }}</p>
       <img :src="message.attachment" alt=""/>
+            <p id="datePost">Posté le {{ message.createdAt.slice(0,10).split("-").reverse().join("/")}} </p>
       </router-link>
-      <p id="datePost">Posté le {{ message.createdAt.slice(0,10).split("-").reverse().join("/")}} </p>
+      <font-awesome-icon icon="thumbs-up" @click="createLike" /> 
+      <p> {{ message.likes }}</p>
     </div>
+  </div>
   </div>
 </template>
 
 <script>
 
 import axios from "axios"
-import Message from "@/components/Message"
+import CreateMessage from "@/components/CreateMessage"
+//import Like from "@/components/Like"
 
 export default {
   name: 'Feed',
-  components: { Message },
+  components: { CreateMessage },
 
   data() {
     return {
@@ -94,6 +99,11 @@ methods: {
 </script>
 
 <style>
+.displayMessage {
+display: flex;
+flex-direction: column;
+
+}
 a { 
   text-decoration: none; 
   }
@@ -117,7 +127,7 @@ a {
   display: flex;
   justify-content: right;
   width: 100%;
-  margin: -1em;
+  padding-top: 2em;
 }
 
 #datePost{

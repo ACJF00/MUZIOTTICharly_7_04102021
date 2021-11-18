@@ -1,7 +1,7 @@
 <template>
   <div class="like">
-    <font-awesome-icon icon="heart" @click="createLike" /> 
-    <p>{{ messages.likes }}</p>
+    <font-awesome-icon icon="thumbs-up" @click="createLike" /> 
+    <p>{{ likes }}</p>
   </div>
 </template>
 
@@ -11,16 +11,16 @@ export default {
   name: "Like",
   data() {
     return {
-      messages: [],
-    }
-  },
+          likes: []
+        }
+    },
   mounted() {
     const messageId = this.$route.params.id
 
     axios
       .get(`http://localhost:3000/api/messages/${messageId}`)
       .then((response) => {
-        this.messages = response.data
+        this.likes = response.data.likes
       })
       .catch((error) => {
         console.log(error)
@@ -41,11 +41,9 @@ export default {
           `http://localhost:3000/api/messages/${messageId}/vote/like`, {}, { headers })
         .then((response) => {
           if (response.data.message == "Message liked !") {
-            alert("Message liked !")
-            this.$router.push("/feed");
+            this.likes ++
           } else if (response.data.message == "I no longer like this message !") {
-            alert("Message no longer liked !")
-            this.$router.push("/feed");
+            this.likes --
           }
         })
         .catch((error) => {
@@ -59,8 +57,7 @@ export default {
 
 <style scoped>
 .like {
-  color: red;
-  font-size: 1rem;
-  transform-style: 4s;
+  color: #0B7EF9;
+  height: auto;
 }
 </style>
