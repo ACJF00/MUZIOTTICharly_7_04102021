@@ -4,7 +4,8 @@
   "description": "Serveur HTTP API REST GROUPOMANIA",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "keywords": [
     "Groupomania",
@@ -22,8 +23,11 @@
     "file-system": "^2.2.2",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.3",
-    "mysql2": "^2.3.2",
+    "mysql2": "^2.3.3",
+    "node": "^17.2.0",
+    "nodemon": "^2.0.15",
     "path": "^0.12.7",
-    "sequelize": "^6.7.0"
+    "sequelize": "^6.11.0",
+    "sequelize-cli": "^6.3.0"
   }
 }
