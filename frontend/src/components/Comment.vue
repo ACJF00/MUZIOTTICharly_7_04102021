@@ -5,7 +5,7 @@
         </div>
     <button @click="createComment(content)">Commenter</button>
   </div>
-   <div class="feedComments" v-for="comment in comments" :key="comment.id">
+   <div class="feedComments" v-for="comment in comments" :key="comment.id" @listComments="listComments">
    <div class="displayComment">
         <font-awesome-icon icon="times" v-if="comment.UserId == this.$store.state.user.userId" @click="deleteComment(comment)" /> 
         <font-awesome-icon icon="times" v-else-if="this.$store.state.user.isAdmin == 1" @click="deleteComment(comment)" />
@@ -42,11 +42,10 @@ createComment(content) {
   }
 
        axios.post(`http://localhost:3000/api/messages/${messageId}/comment/new`, { content }, { headers })
-
+      this.$emit('listComments', content)
    .then((response) => 
       {
-          this.comment = response.data 
-          this.$router.go()	
+          this.content = response.data.push
       })
     .catch((error) => 
       {
