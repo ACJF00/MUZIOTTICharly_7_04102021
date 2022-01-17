@@ -10,6 +10,7 @@
     <router-link to="/Profile">Profil</router-link> |
     <router-link to="/feed">Mur de messages</router-link> |
     <router-link to="/message">Poster un message</router-link>
+    <router-link to="/UsersList" v-if="this.$store.state.user.isAdmin == 1"> | Liste des utilisateurs</router-link>
   </nav>
 </header>
      <router-view />
@@ -40,18 +41,13 @@ header {
 	text-align: center;
 	width: 100%;
 	height: auto;
-	background-size: cover;
-	background-attachment: fixed;
-	position: relative;
-	border-radius: 5% 5% 5% 5%;
 }
 header .overlay{
 	width: 100%;
 	height: 100%;
 	color: #FFF;
 	text-shadow: 1px 1px 1px #333;
-  background-image: linear-gradient( 135deg, #9f05ff69 10%, #fd5e086b 100%);
-	margin: 10px;
+  background-image: linear-gradient( 135deg, #6898F7 10%, #64CEED 100%);
   border-radius: 16px;
 }
 
@@ -67,7 +63,7 @@ header h3, p {
   max-width: 100%;
 }
 body {
-  background-image: linear-gradient(62deg, #76CDCD 0%, #2CCED2 30%);
+  background-color: #73E6F5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -81,14 +77,16 @@ img {
   width: auto
 }
 .card {
-  max-width: 100%;
-  width: 540px;
   background:white;
   border-radius: 16px;
   padding:32px;
   padding-top: 10px;
   display: flex;
   box-shadow: 2px 2px 5px black;
+  display: flex;
+  flex-direction: column;
+  margin-top: 38px;
+  width: 100%;
 }
 .card__title {
   text-align:center;

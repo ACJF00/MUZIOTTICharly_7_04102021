@@ -1,15 +1,15 @@
 <template>
   <div class="comment">
    <div class="createComment">
-          <textarea v-model="content"></textarea>
+          <textarea rows="2" cols="60" v-model="content" placeholder="Votre commentaire"></textarea>
         </div>
-    <button @click="createComment(content)">Commenter</button>
+    <font-awesome-icon icon="arrow-circle-right" id="sendComment" @click="createComment(content)" /> 
   </div>
    <div class="feedComments" v-for="comment in comments" :key="comment.id" @listComments="listComments">
    <div class="displayComment">
         <font-awesome-icon icon="times" v-if="comment.UserId == this.$store.state.user.userId" @click="deleteComment(comment)" /> 
         <font-awesome-icon icon="times" v-else-if="this.$store.state.user.isAdmin == 1" @click="deleteComment(comment)" />
-        <h1 class="oneComment">{{ comment.content }} </h1> 
+        <h3 class="oneComment">{{ comment.content }} </h3> 
       </div>
         </div>
 </template>
@@ -17,7 +17,6 @@
 <script>
 
 import axios from "axios"
-
 
 export default {
   name: "createComment",
@@ -40,18 +39,22 @@ createComment(content) {
     "Content-Type": "application/json",
     "Authorization": `Bearer ${token}`,
   }
-
+if (!content == "") {
        axios.post(`http://localhost:3000/api/messages/${messageId}/comment/new`, { content }, { headers })
-      this.$emit('listComments', content)
    .then((response) => 
       {
-          this.content = response.data.push
+          this.content = response.data
+          location.reload()
       })
     .catch((error) => 
       {
           console.log(error)
       })
-    },
+    } else{
+      alert("Votre commentaire est vide")
+    }
+},
+
   listComments() {
     const messageId = this.$route.params.id
     axios
@@ -63,14 +66,13 @@ createComment(content) {
         console.log(error)
       })
   },
-    deleteComment(comment) {
+     deleteComment(comment) {
       const token = this.$store.state.user.token
       const id = comment.id
       const headers = { 
         "Content-Type": "application/json",
          Authorization: `Bearer ${token}`,
       }
-
       axios
               .delete(`http://localhost:3000/api/messages/comment/${id}`, { headers })
           .then((res) => {
@@ -85,26 +87,73 @@ createComment(content) {
   },
 }
 }
-
 </script>
 
-<style>
+<style lang="scss">
 
-.newMessage{
-  box-shadow: 3px 3px 3px black;
-  border-radius: 10px;
+@import "src/scss/_variables.scss";
+
+.comment {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+textarea {
+    margin-left: -1em;
+    padding-top: 1.5em;
+    padding-left: 0.5em;
+    resize: none;
+    width: 100%;
+    border-radius: 8px;
+  }
+    #sendComment{
+      font-size: 2.5em;
+      color: $blue;
+      cursor: pointer;
+    }
 }
+.feedComments {
+    display: flex;
+    justify-content: center;
+}
+
 .displayComment{
-  font-size: 0.6em;
-  font-weight: normal;
-  display: flex;
-  justify-content: center;
-  border: solid 0.5px;
-  border-radius: 10px;
-  margin: 1em;
-  flex-direction: row;
-  background-color: #E8EDF3;
-  width: 80%;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    border: solid 0.1px;
+    border-radius: 8px;
+    margin: 0.5em;
+    background-color: #B5EBF7;
+    width: 80%;
+    flex-direction: row-reverse;
+
+.oneComment{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-weight: normal;
+    max-width: 20em;
+    padding-left: 1em;
+    overflow-y: scroll;
 }
+    #clickDelete{
+      margin-right: 0.3em;
+      margin-bottom: auto;
+    }
+}
+
+/*@media (min-width: 360px) and (max-width: 850px) {
+.createComment {
+    display: flex;
+    flex-direction: column;
+    height: 10em;
+}
+textarea{
+  width: 20em;
+}
+#sendComment{
+      display: flex;
+      justify-content: center;
+    }
+}*/
 </style>

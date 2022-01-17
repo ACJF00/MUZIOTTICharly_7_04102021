@@ -3,21 +3,31 @@
     <h1 class="card__title">Espace Perso</h1>
     <p class="card__subtitle">Voilà donc qui je suis...</p>
     <h2> {{ user.username }} || {{ user.email }}</h2>
-    <p> {{ user.bio }} </p>
+    <p id="bio"> {{ user.bio }} </p>
     <div class="form-row">
       <button @click="logout()" class="button">Déconnexion</button>
       <button v-if="user.id == this.$store.state.user.userId" @click="deleteProfile(user)">Supprimer</button>
     </div>
+      <Bio />
   </div>
 </template>
+
 
 <script>
 
 import { mapState } from 'vuex'
 import axios from "axios"
+import Bio from "@/components/Bio"
 
 export default {
   name: 'Profile',
+  components: { Bio },
+
+  data() {
+    return {
+      bio: ""
+    }
+  },
   mounted: function () {
 
     if (this.$store.state.user.userId == -1) {
@@ -38,13 +48,10 @@ export default {
     },
     deleteProfile(user) {
       const token = this.$store.state.user.token
-      //const isAdmin = this.$store.state.user.isAdmin
-      //const userId = this.$store.state.user.userId
       const headers = { 
         "Content-Type": "application/json",
          Authorization: `Bearer ${token}`,
       }
-      console.log(user.id)
 
       axios
               .delete(`http://localhost:3000/api/users/${user.id}`, { headers })
@@ -64,8 +71,18 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
 h2 {
 text-align: center;
+}
+
+#bio{
+font-style: italic;
+margin-top: 2em;
+display: flex;
+font-size: 16px;
+margin-left: 32px;
+border-left: 4px solid #CCC;
+padding-left: 8px;
 }
 </style>>

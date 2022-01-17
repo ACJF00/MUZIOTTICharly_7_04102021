@@ -198,7 +198,6 @@ module.exports  = {
             // Getting auth header
             const headerAuth = req.headers['authorization'];
             const userId = jwtUtils.getUserId(headerAuth);
-            console.log(userId)
             
            models.User.findOne({ 
               where: {
@@ -217,5 +216,15 @@ module.exports  = {
             .catch(error => {
               res.status(400).json({ error })
             })
-      }
-    }
+      },
+        getAllUsers: function (req, res) {
+
+            models.User.findAll()
+                .then((users) => res.status(200).json({
+                    users
+                }))
+                .catch((err) => res.status(401).json({
+                    err
+                }));
+}
+}

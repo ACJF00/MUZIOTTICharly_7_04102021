@@ -19,6 +19,9 @@
     <div class="form-row" v-if="mode == 'create' && status == 'error_create'">
       Adresse mail déjà utilisée
     </div>
+    <div class="form-row" v-if="mode == 'create'">
+      <input v-model="bio" class="form-row__input" type="bio" placeholder="Entrez votre biographie ici (Optionnel)"/>
+    </div>
     <div class="form-row">
       <button @click="login()" class="button" :class="{'button--disabled' : !validatedFields}" v-if="mode == 'login'">
         <span v-if="status == 'loading'">Connexion en cours...</span>
@@ -105,7 +108,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 nav {
     text-align: center;
 }
@@ -119,11 +122,12 @@ h1 {
     margin-top: 38px;
     align-items: center;
 }
-.card {
+/*.card {
     display: flex;
     flex-direction: column;
     margin-top: 38px;
-}
+        width: 100%;
+}*/
   .form-row {
     display: flex;
     margin: 16px 0px;

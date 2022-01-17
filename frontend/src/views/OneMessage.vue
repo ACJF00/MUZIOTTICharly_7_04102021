@@ -8,11 +8,12 @@
       <h1 class="card__username">By {{ message.User?.username }}</h1>
       <h1 class="card__title">{{ message.title }}</h1>
       <h3 class="card__content">{{ message.content }}</h3>
-      <div v-if="message.attachment !== null">
+      <div class="attachment" v-if="message.attachment !== null">
       <img :src="message.attachment" alt=""/>
       </div>
             <Like />
             <Comment />
+            <p id="datePost">Posté le {{ message.createdAt?.slice(0,10).split("-").reverse().join("/")}} </p>
     </div>
   </div>
 </template>
@@ -92,15 +93,10 @@ export default {
 </script>
 
 
-<style>
+<style lang="scss">
 
-.card__username {
-  font-size: 0.7em;
-  display: flex;
-  justify-content: right;
-  width: 90%;
-  font-weight: normal;
-}
+@import "src/scss/_variables.scss";
+
 .card__title{
   font-size: 2em;
 } 
@@ -109,10 +105,17 @@ export default {
   text-align: center;
   margin: 20px;
 } 
-.deletePost {
+.attachment{
+  img{
+  width: 100%;
+  height: auto;
+  }
+}
+/** .deletePost {
   display: flex;
   justify-content: right;
   width: 100%;
   margin: -1em;
 }
+  */
 </style>

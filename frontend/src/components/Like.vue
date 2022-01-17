@@ -55,9 +55,17 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+
+@import "src/scss/_variables.scss";
+
 .like {
-  color: #0B7EF9;
+  color: $blue;
   height: auto;
+  display: flex;
+  flex-direction: row;
+  p{
+    padding-left: 0.5em;
+  }
 }
 </style>

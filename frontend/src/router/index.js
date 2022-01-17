@@ -5,6 +5,7 @@ import NotFound from '@/views/NotFound.vue';
 import Profile from "@/views/Profile.vue";
 import Feed from "@/views/Feed.vue";
 import OneMessage from '@/views/OneMessage.vue';
+import UsersList from '@/views/UsersList.vue';
 
 
 const routes = [
@@ -59,6 +60,14 @@ const routes = [
         component: NotFound,
         meta: {
             title: '404 not found'
+        }
+    },
+    {
+        name: 'UsersList',
+        path: '/UsersList',
+        component: UsersList,
+        meta: {
+            title: 'Liste des utilisateurs'
         }
     }
 ];
