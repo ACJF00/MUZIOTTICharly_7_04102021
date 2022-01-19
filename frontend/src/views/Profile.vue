@@ -3,12 +3,15 @@
     <h1 class="card__title">Espace Perso</h1>
     <p class="card__subtitle">Voilà donc qui je suis...</p>
     <h2> {{ user.username }} || {{ user.email }}</h2>
-    <p id="bio"> {{ user.bio }} </p>
+    <p id="bio" > {{ user.bio }} </p>
+    <button class="btn-primary" v-on:click="isHidden = !isHidden">
+  {{ isHidden ? 'Editer' : 'Cacher' }}
+</button>
+<p v-if="!isHidden"><Bio /></p>
     <div class="form-row">
       <button @click="logout()" class="button">Déconnexion</button>
       <button v-if="user.id == this.$store.state.user.userId" @click="deleteProfile(user)">Supprimer</button>
     </div>
-      <Bio />
   </div>
 </template>
 
@@ -25,7 +28,8 @@ export default {
 
   data() {
     return {
-      bio: ""
+      bio: "",
+      isHidden: true
     }
   },
   mounted: function () {
@@ -84,5 +88,13 @@ font-size: 16px;
 margin-left: 32px;
 border-left: 4px solid #CCC;
 padding-left: 8px;
+}
+
+.btn-primary{
+  width: 13%;
+  display: flex;
+  justify-content: center;
+  align-self: flex-end;
+  font-size: xx-small;
 }
 </style>>

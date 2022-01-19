@@ -16,7 +16,7 @@ exports.router = (function() {
     apiRouter.route('/users/login/').post(usersCtrl.login);
     apiRouter.route('/users/infos/').get(usersCtrl.getUserProfile);
     apiRouter.route('/users/:id/').delete(usersCtrl.deleteUserProfile);
-    apiRouter.route('/users/:id/').put(usersCtrl.updateUserProfile);
+    apiRouter.route('/users/:id/edit').put(usersCtrl.updateUserProfile);
     apiRouter.route('/users/').get(usersCtrl.getAllUsers);
 
     // Messages routes
