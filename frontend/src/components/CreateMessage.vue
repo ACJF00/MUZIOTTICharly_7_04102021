@@ -1,5 +1,5 @@
 <template>
- <div class="newMessage">
+ <div class="card">
       <form class="createMessage">
         <div class="item">
           <div>
@@ -10,9 +10,9 @@
           <textarea id="fillBlock" placeholder="Nouveau message" v-model="content"></textarea>
         </div>
        <div class="item">
-        <input type="file" ref="file" @change="onFileSelected(message)">
+        <input id="chooseFile" type="file" ref="file" @change="onFileSelected(message)">
         </div>
-        <button @click="submit(this.message)">Publier</button>
+        <button class="button" @click="submit(this.message)">Publier</button>
       </form>
     </div>
 </template>
@@ -75,12 +75,8 @@ submit() {
 }
 </script>
 
-<style>
-.newMessage{
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
+<style lang="scss">
+
 
 .createMessage {
     display: flex;
@@ -89,18 +85,27 @@ submit() {
     justify-content: space-between;
     height: 100%;
     width:100%;
-    background-color: #76F2EC;
     border-radius: 20px;
-    padding: 5px
+    padding: 5px;
+
+    h1{
+      text-align: center;
+    }
 }
 
 .item {
     padding: 5px;
-    width: 70%;
 }
 
 .item #fillBlock {
     width: 100%;
     border-radius: 5px;
+    resize: none;
+    padding-left: 0.5em;
 }
+
+input#chooseFile {
+    width: 95%;
+}
+
 </style>

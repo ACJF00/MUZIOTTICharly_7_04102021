@@ -40,7 +40,7 @@ import { mapState } from 'vuex'
 export default {
   name: 'Login',
   props: ['name'],
-  data: function () {
+  data() {
     return {
       mode: 'login',
       email: '',
@@ -52,7 +52,7 @@ export default {
   mounted: function () {
     if (this.$store.state.user.userId != -1) {
       this.$router.push('/');
-      return ;
+      return
     }
   },
   computed: {
@@ -74,24 +74,25 @@ export default {
     ...mapState(['status'])
   },
   methods: {
-    switchToCreateAccount: function () {
+    switchToCreateAccount() {
       this.mode = 'create';
     },
-    switchToLogin: function () {
+    switchToLogin() {
       this.mode = 'login';
     },
-    login: function () {
+    login() {
       const self = this;
       this.$store.dispatch('login', {
         email: this.email,
         password: this.password,
       }).then(function () {
         self.$router.push('/profile');
-      }, function (error) {
+      })
+      .catch((error) => {
         console.log(error);
       })
     },
-    createAccount: function () {
+    createAccount() {
       const self = this;
       this.$store.dispatch('createAccount', {
         email: this.email,
@@ -109,30 +110,16 @@ export default {
 </script>
 
 <style lang="scss">
-nav {
-    text-align: center;
-}
 
 h1 {
     margin-top: 20px;
 }
-#app {
-    display: flex;
-    flex-direction: column;
-    margin-top: 38px;
-    align-items: center;
-}
-/*.card {
-    display: flex;
-    flex-direction: column;
-    margin-top: 38px;
-        width: 100%;
-}*/
   .form-row {
     display: flex;
     margin: 16px 0px;
     gap:16px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
   }
   .form-row__input {
     padding:8px;
@@ -144,6 +131,8 @@ h1 {
     flex:1;
     min-width: 100px;
     color: black;
+    width: 80%;
+    max-width: 20em;
   }
   .form-row__input::placeholder {
     color:#aaaaaa;

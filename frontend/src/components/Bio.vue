@@ -3,11 +3,11 @@
     <div class="editedBio">
       <form class="formCreate">
         <div class="formEditedBio">
-          <textarea id="bioEditingTxt"  name="bio" placeholder="New bio" v-model="bio"></textarea>
+          <textarea id="bioEditingTxt"  name="bio" placeholder="Nouvelle bio" v-model="bio"></textarea>
           <br />
         </div>
-        <div id="btn-submitEdit">
-        <button class="btn-primary" type="submit" @click="editBio()">Submit</button>
+        <div class="form-row">
+        <button class="button" type="submit" @click="editBio()">Soumettre</button>
         </div>
       </form>
     </div>
@@ -37,8 +37,9 @@ export default {
       axios
         .put(`http://localhost:3000/api/users/${userId}/edit`, { bio } , { headers })
         .then((response) => {
-            let rep = JSON.parse(response.data);
-            console.log(rep);
+            /*let rep = JSON.parse(response.data);
+            console.log(rep);*/
+            JSON.stringify(response.bio),
             window.location.assign('http://localhost:8080/Profile');
         })
         .catch((error) => {
@@ -50,6 +51,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 .formEditedBio{
   display: flex;
   justify-content: center;
@@ -58,14 +60,10 @@ export default {
   
   #bioEditingTxt{
     width: 80%;
-    height: 90%;
+    padding-left: 0.5em;
+    resize: none;
+    border-radius: 8px;
 }
 }
 
-#btn-submitEdit{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-</style>>
+</style>

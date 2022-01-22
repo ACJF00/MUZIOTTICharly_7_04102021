@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="general">
   <CreateMessage />
     <div class="card" v-for="message in messages" :key="message.id">
     <div class="displayMessage">
@@ -8,11 +8,13 @@
       <font-awesome-icon icon="times" v-else-if="this.$store.state.user.isAdmin == 1" @click="deleteMessage(message)" /> 
       </div>
       <router-link :to="{ name: 'OneMessage', params: { id: message.id }}">
-      <h1 class="card__title">{{ message.title}}</h1>
-      <h3 class="card__username" > By {{ message.User.username }} </h3>
-      <p class="card__content">{{ message.content }}</p>
-      <img class="attachment" :src="message.attachment" alt=""/>
-      <p id="datePost">Posté le {{ message.createdAt.slice(0,10).split("-").reverse().join("/")}} </p>
+        <div class="publishedBy">
+      <p class="card__username" > Publié par</p> <p id="username">{{ message.User.username }}</p>
+        </div>
+        <p id="datePost">Posté le {{ message.createdAt.slice(0,10).split("-").reverse().join("/")}} </p>
+      <h1 class="msgCard__title">{{ message.title}}</h1>
+      <p class="msgCard__content">{{ message.content }}</p>
+      <img class="msgCard_attachment" :src="message.attachment" alt=""/>
       </router-link>
       <div class="displayLikes">
       <font-awesome-icon icon="thumbs-up" @click="likePost(message)" /> 
@@ -124,54 +126,24 @@ methods: {
 </script>
 
 <style lang="scss">
-.displayMessage {
-display: flex;
-flex-direction: column;
-img{
-    height: auto;
-}
-}
+@import "src/scss/_variables.scss";
 
-a { 
-  text-decoration: none; 
+  .msgCard__title {
+    font-size: 1.3em;
   }
-.card__username {
-  width: 100%;
-  font-size: 0.7em;
-  display: flex;
-  justify-content: right;
-  font-weight: normal;
-}
-.card__title{
-  font-size: 2em;
-} 
-.card__content{
-  font-size: 1.5em;
-  text-align: center;
-  margin: 20px;
-  font-weight: normal;
-} 
 
-.deletePost {
-  display: flex;
-  justify-content: right;
-  width: 100%;
-  margin-top: 0.3em;
-}
-
-#datePost{
-  font-size: 0.7em;
-  justify-content: right;
-  display: flex;
-  margin: 0;
-}
-.displayLikes{
-  color: #0B7EF9;
-  display: flex;
-  flex-direction: row;
-    p{
-    padding-left: 0.5em;
+  .msgCard__content {
+    margin-top: 20px;
+    font-size: 0.8em;
   }
-}
+
+  .msgCard__datePost {
+    font-size: x-small;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+
 </style>
 

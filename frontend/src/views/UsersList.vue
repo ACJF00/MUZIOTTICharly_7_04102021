@@ -44,7 +44,7 @@ methods: {
         "Content-Type": "application/json",
          Authorization: `Bearer ${token}`,
       }
-
+if(confirm('Etes-vous sûr ?'))
       axios
               .delete(`http://localhost:3000/api/users/${user.id}`, { headers })
           .then((res) => {

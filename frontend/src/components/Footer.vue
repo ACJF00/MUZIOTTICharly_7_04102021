@@ -29,17 +29,23 @@
 </footer>
 </template>
 
-<style>
+<style lang="scss">
+@import "src/scss/_variables.scss";
+
 .site-footer
 {
-  background-image: linear-gradient( 135deg, #6898F7 10%, #64CEED 100%);
+  background-color: $header-color;
   padding: 10px;
-  width: 90%;
-  margin: 50px;
+  width: 100%;
   font-size:15px;
-  color:#7569E0;
-  border-radius: 5% 5% 5% 5%;
+  color: white;
+  border-radius: 16px;;
   text-align: center;
+  box-shadow: 2px 2px 5px black;
+ .footer-links a {
+    text-decoration: none;
+    color: white;
+  }
 }
 .site-footer hr
 {
@@ -53,7 +59,8 @@
   font-size:16px;
   text-transform:uppercase;
   margin-top:5px;
-  letter-spacing:2px
+  letter-spacing:2px;
+  text-shadow: 1px 1px 1px #333;
 }
 .site-footer a:hover
 {
@@ -63,10 +70,6 @@
 .footer-links li
 {
   display:block
-}
-.footer-links a
-{
-  color:#7569E0
 }
 .footer-links a:active,.footer-links a:focus,.footer-links a:hover
 {

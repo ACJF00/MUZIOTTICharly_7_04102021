@@ -1,17 +1,22 @@
 <template>
+<div class="general">
   <div class="card">
     <h1 class="card__title">Espace Perso</h1>
     <p class="card__subtitle">Voilà donc qui je suis...</p>
     <h2> {{ user.username }} || {{ user.email }}</h2>
+    <div class="form-row">
     <p id="bio" > {{ user.bio }} </p>
-    <button class="btn-primary" v-on:click="isHidden = !isHidden">
+    <button class="button" v-on:click="isHidden = !isHidden">
   {{ isHidden ? 'Editer' : 'Cacher' }}
-</button>
+  </button>
+  </div>
 <p v-if="!isHidden"><Bio /></p>
+<hr>
     <div class="form-row">
       <button @click="logout()" class="button">Déconnexion</button>
-      <button v-if="user.id == this.$store.state.user.userId" @click="deleteProfile(user)">Supprimer</button>
+      <button class="button" v-if="user.id == this.$store.state.user.userId" @click="deleteProfile(user)">Supprimer le compte</button>
     </div>
+  </div>
   </div>
 </template>
 
@@ -56,7 +61,7 @@ export default {
         "Content-Type": "application/json",
          Authorization: `Bearer ${token}`,
       }
-
+if(confirm('Etes-vous sûr ?'))
       axios
               .delete(`http://localhost:3000/api/users/${user.id}`, { headers })
           .then((res) => {
@@ -76,6 +81,10 @@ export default {
 </script>
 
 <style lang="scss">
+
+@import "src/scss/_variables.scss";
+
+
 h2 {
 text-align: center;
 }
@@ -84,17 +93,31 @@ text-align: center;
 font-style: italic;
 margin-top: 2em;
 display: flex;
-font-size: 16px;
-margin-left: 32px;
 border-left: 4px solid #CCC;
 padding-left: 8px;
+background-color: #ebeaea;
+width: 60%;
+align-self: center;
+overflow-x: auto;
+height: 3em;
 }
 
 .btn-primary{
-  width: 13%;
   display: flex;
   justify-content: center;
-  align-self: flex-end;
+  align-self: center;
   font-size: xx-small;
+  background-color: $btn-color;
+  color: white;
+  border-radius: 8px;
+  transition: .4s background-color;
+  margin-top: 1em;
+  padding: 0.2em;
+  font-size: 15px;
+  font-weight: 800;
 }
+.btn-primary:hover {
+    cursor:pointer;
+    background: $btn-hover;
+  }
 </style>>

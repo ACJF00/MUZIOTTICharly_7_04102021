@@ -1,16 +1,23 @@
 <template>
-  <div class="comment">
+  <div class="general" id="comment">
    <div class="createComment">
           <textarea rows="2" cols="60" v-model="content" placeholder="Votre commentaire"></textarea>
-        </div>
     <font-awesome-icon icon="arrow-circle-right" id="sendComment" @click="createComment(content)" /> 
-  </div>
+    </div>
+  <div class="displayMessage" id="displayComment">
    <div class="feedComments" v-for="comment in comments" :key="comment.id" @listComments="listComments">
-   <div class="displayComment">
+     <div class="deletePost">
         <font-awesome-icon icon="times" v-if="comment.UserId == this.$store.state.user.userId" @click="deleteComment(comment)" /> 
         <font-awesome-icon icon="times" v-else-if="this.$store.state.user.isAdmin == 1" @click="deleteComment(comment)" />
-        <h3 class="oneComment">{{ comment.content }} </h3> 
       </div>
+      <div class="publishedBy">
+      <p class="card__username" >Publié par</p> 
+      <p id="username">{{ comment.username }}</p>
+      </div>
+      <p id="datePost">Posté le {{ comment.createdAt?.slice(0,10).split("-").reverse().join("/")}} </p>
+        <p class="oneComment">{{ comment.content }} </p>  
+      </div>
+        </div>
         </div>
 </template>
 
@@ -93,47 +100,56 @@ if (!content == "") {
 
 @import "src/scss/_variables.scss";
 
-.comment {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+#comment {
+    padding-top: 2em;
+    margin-top: 1em;
+    background-color: #d14f59;
+    border-radius: 0px 0px 16px 16px;
+}
 
-textarea {
-    margin-left: -1em;
+    .createComment {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-bottom: 1em;
+    
+    textarea {
     padding-top: 1.5em;
     padding-left: 0.5em;
     resize: none;
-    width: 100%;
+    width: 80%;
     border-radius: 8px;
   }
     #sendComment{
       font-size: 2.5em;
-      color: $blue;
+      color: white;
       cursor: pointer;
     }
 }
+
 .feedComments {
     display: flex;
     justify-content: center;
-}
+    width: 100%;
 
-.displayComment{
+    div.displayComment {
     display: flex;
     justify-content: center;
-    border: solid 0.1px;
     border-radius: 8px;
-    margin: 0.5em;
-    background-color: #B5EBF7;
+    margin: 0.4em;
+    background-color: white;
     width: 80%;
-    flex-direction: row-reverse;
+    flex-direction: column;
+    padding: 0.4em;
+    box-shadow: 0px 0px 2px 1px white;
+}
 
 .oneComment{
     width: 100%;
     display: flex;
-    justify-content: center;
     font-weight: normal;
     max-width: 20em;
-    padding-left: 1em;
     overflow-y: scroll;
 }
     #clickDelete{
@@ -141,6 +157,7 @@ textarea {
       margin-bottom: auto;
     }
 }
+
 
 /*@media (min-width: 360px) and (max-width: 850px) {
 .createComment {

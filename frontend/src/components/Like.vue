@@ -60,10 +60,11 @@ export default {
 @import "src/scss/_variables.scss";
 
 .like {
-  color: $blue;
+  color: $btn-color;
   height: auto;
   display: flex;
   flex-direction: row;
+  justify-content: center;
   p{
     padding-left: 0.5em;
   }

@@ -1,19 +1,24 @@
 <template>
-  <div>
+  <div class="general">
     <div class="card">
+    <div class="displayMessage">
     <div class="deletePost">
       <font-awesome-icon icon="times" v-if="message.UserId == this.$store.state.user.userId" @click="deleteMessage" /> 
       <font-awesome-icon icon="times" v-else-if="this.$store.state.user.isAdmin == 1" @click="deleteMessage" /> 
       </div>
-      <h1 class="card__username">By {{ message.User?.username }}</h1>
+      <div class="publishedBy">
+      <p class="card__username">Publié par</p> 
+      <p id="username">{{ message.User?.username }}</p>
+      </div>
+      <p id="datePost">Posté le {{ message.createdAt?.slice(0,10).split("-").reverse().join("/")}} </p>
       <h1 class="card__title">{{ message.title }}</h1>
       <h3 class="card__content">{{ message.content }}</h3>
       <div class="attachment" v-if="message.attachment !== null">
       <img :src="message.attachment" alt=""/>
       </div>
             <Like />
-            <Comment />
-            <p id="datePost">Posté le {{ message.createdAt?.slice(0,10).split("-").reverse().join("/")}} </p>
+    </div>
+                <Comment />
     </div>
   </div>
 </template>
@@ -97,25 +102,4 @@ export default {
 
 @import "src/scss/_variables.scss";
 
-.card__title{
-  font-size: 2em;
-} 
-.card__content{
-  font-size: 1.5em;
-  text-align: center;
-  margin: 20px;
-} 
-.attachment{
-  img{
-  width: 100%;
-  height: auto;
-  }
-}
-/** .deletePost {
-  display: flex;
-  justify-content: right;
-  width: 100%;
-  margin: -1em;
-}
-  */
 </style>

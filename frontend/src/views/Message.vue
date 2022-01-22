@@ -1,39 +1,24 @@
 <template>
- <div class="newMessage">
-      <form class="createMessage">
-        <h1>Poster un nouveau message</h1>
-        <div class="item">
-          <div>
-            <input type="text" placeholder="Title" v-model="title"/>
-          </div>
-        </div>
-        <div class="item">
-          <textarea placeholder="Message" v-model="content"></textarea>
-        </div>
-       <div class="item">
-        <p>Ajouter une image</p>
-        <input type="file" ref="file" @change="onFileSelected()">
-        </div>
-      </form>
-          <div class="test">
-          <button @click="submit">Publier</button>
-        </div>
+ <div class="general">
+<CreateMessage />
     </div>
 </template>
 
 <script>
 
 import axios from "axios"
+import CreateMessage from "@/components/CreateMessage"
 
 export default {
   name: "message",
-    data() {
-        return {
-            title: "",
-            content: "",
-            attachment: null
-        }
-    },
+  components: { CreateMessage },
+  
+  data() {
+    return {
+      messages: [],
+      userId: this.$store.state.user.userId,
+    }
+  },
      mounted() {
     if (this.$store.state.user.userId == -1) {
       this.$router.push("/")
@@ -76,3 +61,9 @@ submit() {
   }
 }
 </script>
+
+<style lang="scss">
+
+@import "src/scss/_variables.scss";
+
+</style>
