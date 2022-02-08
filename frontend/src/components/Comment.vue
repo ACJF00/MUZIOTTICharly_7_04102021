@@ -13,6 +13,30 @@
         @click="createComment(content)"
       />
     </div>
+        <div
+      class="card"
+      v-for="newComment in newComments"
+      :key="newComment.id"
+      @listComments="listComments"
+    >
+      <div class="displayMessage">
+        <div class="publishedBy">
+          <p class="card__username">Publié par</p>
+          <p id="username">{{ newComment.username }}</p>
+        </div>
+        <p id="datePost">
+          Posté le
+          {{
+            newComment.createdAt
+              ?.slice(0, 10)
+              .split("-")
+              .reverse()
+              .join("/")
+          }}
+        </p>
+        <p class="oneComment">{{ newComment.content }}</p>
+      </div>
+    </div>
     <div
       class="card"
       v-for="comment in comments"
@@ -60,6 +84,7 @@ export default {
   data() {
     return {
       comments: [],
+      newComments: [],
     };
   },
   mounted() {
@@ -70,25 +95,24 @@ export default {
       // Headers
       const token = this.$store.state.user.token;
       const messageId = this.$route.params.id;
-
+      const today = new Date()
+      const getMonth = (today.getMonth() + 1).toString().length === 1 ? `0${today.getMonth() + 1}`:today.getMonth() + 1 
+      const currentDate = today.getDate() +"/"+ getMonth +"/"+today.getFullYear();
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       };
       if (!content == "") {
-        axios
-          .post(
-            `http://localhost:3000/api/messages/${messageId}/comment/new`,
-            { content },
-            { headers }
-          )
-          .then((response) => {
-            this.content = response.data;
-            location.reload();
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        this.newComments.push({
+          content: this.content,
+          createdAt: currentDate,
+          username: this.$store.state.user.username,
+        });
+        axios.post(
+          `http://localhost:3000/api/messages/${messageId}/comment/new`,
+          { content },
+          { headers }
+        );
       } else {
         alert("Votre commentaire est vide");
       }

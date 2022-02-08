@@ -95,6 +95,9 @@ nav {
     text-decoration: none;
     color: $nav-txt-color;
   }
+  a:hover {
+    text-decoration: underline;
+  }
 }
 body {
   background-color: $main-color;

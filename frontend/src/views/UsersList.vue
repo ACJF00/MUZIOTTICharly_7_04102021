@@ -9,18 +9,13 @@
           <div class="deletePost">
             <font-awesome-icon
               icon="times"
-              v-if="user.UserId == this.$store.state.user.userId"
-              @click="deleteProfile(user)"
-            />
-            <font-awesome-icon
-              icon="times"
-              v-else-if="this.$store.state.user.isAdmin == 1"
+              v-if="this.$store.state.user.isAdmin == 1"
               @click="deleteProfile(user)"
             />
             <br />
           </div>
-          <p class="title font-weight-bold">
-            Créé le :
+          <span class="title font-weight-bold">
+            Créé le : <p id="userDetails">
             {{
               user.createdAt
                 .slice(0, 10)
@@ -29,10 +24,11 @@
                 .join("/")
             }}
           </p>
+          </span>
           <span class="title font-weight-bold"
-            >Username : {{ user.username }}</span
+            >Username : <p id="userDetails">{{ user.username }}</p></span
           >
-          <p class="title font-weight-bold">Email : {{ user.email }}</p>
+          <span class="title font-weight-bold">Email : <p id="userDetails">{{ user.email }}</p></span>
         </div>
       </div>
     </div>
@@ -84,9 +80,18 @@ export default {
 </script>
 
 <style lang="scss">
+@import "src/scss/_variables.scss";
 .content {
   h3 {
     text-align: center;
+  }
+  span{
+    display: flex;
+  #userDetails {
+    color: $btn-color;
+    font-weight: bold;
+    padding-left: 0.5em;
+  }
   }
 }
 </style>

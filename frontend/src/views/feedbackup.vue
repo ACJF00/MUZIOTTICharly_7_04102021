@@ -1,6 +1,14 @@
 <template>
   <div class="general">
-    <CreateMessage />
+    <button class="button" v-on:click="isHidden = !isHidden">
+      {{ isHidden ? "Nouveau message" : "Cacher" }}
+    </button>
+    <transition name="fade">
+      <p v-if="!isHidden" class="msg__transition"><CreateMessage /></p>
+    </transition>
+    <div v-if="messages.length === 0">
+        <div class="aucunpost">Commencez par publier quelque chose ! </div>
+    </div>
     <div
       class="card"
       id="hoverCard"
@@ -66,6 +74,7 @@ export default {
     return {
       messages: [],
       userId: this.$store.state.user.userId,
+      isHidden: true,
       rows: 0,
       perPage: 10,
       currentPage: 1,
@@ -85,17 +94,17 @@ export default {
       .get("http://localhost:3000/api/messages")
       .then((response) => {
         this.messages = response.data;
-        //this.messages = response.data.slice(0, this.perPage);
+        this.messages = response.data.slice(0, this.perPage);
       })
       .catch((error) => {
         console.log(error);
       });
   },
   methods: {
-        /*paginate(currentPage) {
+        paginate(currentPage) {
       const start = (currentPage - 1) * this.perPage;
       this.messages = this.messages.slice(start, start + this.perPage);
-    },*/
+    },
     deleteMessage(message) {
       const token = this.$store.state.user.token;
       const messageId = message.id;
@@ -198,4 +207,3 @@ export default {
   overflow: hidden;
 }
 </style>
-

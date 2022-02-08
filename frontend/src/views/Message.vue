@@ -5,7 +5,6 @@
 </template>
 
 <script>
-/*import axios from "axios"*/
 import CreateMessage from "@/components/CreateMessage";
 
 export default {

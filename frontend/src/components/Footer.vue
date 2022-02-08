@@ -31,6 +31,7 @@
   </footer>
 </template>
 
+
 <style lang="scss">
 @import "src/scss/_variables.scss";
 
@@ -63,7 +64,7 @@
   text-shadow: 1px 1px 1px #333;
 }
 .site-footer a:hover {
-  color: #3366cc;
+  color: $nav-txt-color;
   text-decoration: none;
 }
 .footer-links li {
@@ -72,7 +73,7 @@
 .footer-links a:active,
 .footer-links a:focus,
 .footer-links a:hover {
-  color: #3366cc;
+  color: $nav-txt-color;
   text-decoration: none;
 }
 .copyright-text {

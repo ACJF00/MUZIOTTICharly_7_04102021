@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     editBio() {
-      const bio = JSON.stringify(this.bio);
+      const bio = this.bio;
       const token = this.$store.state.user.token;
       const userId = this.$store.state.user.userId;
       const headers = {

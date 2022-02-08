@@ -5,13 +5,8 @@
         <div class="deletePost">
           <font-awesome-icon
             icon="times"
-            v-if="message.UserId == this.$store.state.user.userId"
-            @click="deleteMessage"
-          />
-          <font-awesome-icon
-            icon="times"
-            v-else-if="this.$store.state.user.isAdmin == 1"
-            @click="deleteMessage"
+            v-if="message.UserId == this.$store.state.user.userId || this.$store.state.user.isAdmin == 1"
+            @click="deleteMessage()"
           />
         </div>
         <div class="publishedBy">
@@ -66,7 +61,7 @@ export default {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       };
-
+if (confirm("Etes-vous sûr ?"))
       axios
         .delete(`http://localhost:3000/api/messages/${messageId}`, { headers })
         .then((res) => {
