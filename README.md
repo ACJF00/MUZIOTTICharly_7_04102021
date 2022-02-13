@@ -7,6 +7,10 @@ Ces instructions vous permettront de mettre en place une copie du projet en loca
 ## Prérequis
 Les éléments dont vous avez besoin pour installer le logiciel et comment les installer
 
+- Git : https://git-scm.com/downloads
+- Node.js : https://nodejs.org/en/
+- MySql : https://dev.mysql.com/downloads/installer/
+
 **Base de données MYSQL :**
 
 > Veuillez demander le fichier .env pour vous connecter à la BDD
@@ -53,6 +57,8 @@ Les éléments dont vous avez besoin pour installer le logiciel et comment les i
 ## Construit avec
 - NodeJS
 - VueJS
+- MySQL
+- Sass
 
 
 ## Authors
