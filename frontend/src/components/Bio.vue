@@ -48,8 +48,6 @@ export default {
           { headers }
         )
         .then((response) => {
-          /*let rep = JSON.parse(response.data);
-            console.log(rep);*/
           JSON.stringify(response.bio),
             window.location.assign("http://localhost:8080/Profile");
         })

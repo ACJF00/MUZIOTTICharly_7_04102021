@@ -1,4 +1,5 @@
 import { createStore } from "vuex";
+import router from "../router/index";
 
 const axios = require("axios");
 
@@ -93,7 +94,12 @@ const store = createStore({
         .then(function(response) {
           commit("userInfos", response.data);
         })
-        .catch(function() {});
+        .catch(function(error) {
+          if (error.response.status == 401)
+            router.push ({
+              name: "login"
+            })
+        });
     },
   },
 });

@@ -4,7 +4,7 @@
     <div
       class="card"
       id="hoverCard"
-      v-for="message in messages" :key="message.id">
+      v-for="(message) in messages" :key="message.id">
       <div class="displayMessage">
         <div class="deletePost">
           <font-awesome-icon
@@ -42,15 +42,6 @@
         </div>
       </div>
     </div>
-    <div class="mt-3 align-center">
-      <b-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        align="center"
-        @input="paginate(currentPage)"
-      ></b-pagination>
-    </div>
   </div>
 </template>
 
@@ -61,6 +52,7 @@ import CreateMessage from "@/components/CreateMessage";
 export default {
   name: "Feed",
   components: { CreateMessage },
+
 
   data() {
     return {
@@ -85,17 +77,12 @@ export default {
       .get("http://localhost:3000/api/messages")
       .then((response) => {
         this.messages = response.data;
-        //this.messages = response.data.slice(0, this.perPage);
       })
       .catch((error) => {
         console.log(error);
       });
   },
   methods: {
-        /*paginate(currentPage) {
-      const start = (currentPage - 1) * this.perPage;
-      this.messages = this.messages.slice(start, start + this.perPage);
-    },*/
     deleteMessage(message) {
       const token = this.$store.state.user.token;
       const messageId = message.id;

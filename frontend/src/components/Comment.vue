@@ -85,6 +85,7 @@ export default {
     return {
       comments: [],
       newComments: [],
+      content: ""
     };
   },
   mounted() {
@@ -136,6 +137,7 @@ export default {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       };
+      if (confirm("Etes-vous sûr ?"))
       axios
         .delete(`http://localhost:3000/api/messages/comment/${id}`, { headers })
         .then((res) => {

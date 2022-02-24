@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Login from "@/views/Login.vue";
-import Message from "@/views/Message.vue";
+//import Message from "@/views/Message.vue";
 import NotFound from "@/views/NotFound.vue";
 import Profile from "@/views/Profile.vue";
 import Feed from "@/views/Feed.vue";
@@ -16,14 +16,14 @@ const routes = [
       title: "Inscription",
     },
   },
-  {
+  /*{
     name: "message",
     path: "/Message",
     component: Message,
     meta: {
       title: "Message",
     },
-  },
+  },*/
   {
     name: "OneMessage",
     path: "/oneMessage/:id",

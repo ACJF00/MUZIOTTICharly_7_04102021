@@ -118,7 +118,6 @@ module.exports = {
         }
       })
       .catch((err) => {
-        console.log(err);
         res.status(500).json({ error: "invalid fields" });
       });
   },
