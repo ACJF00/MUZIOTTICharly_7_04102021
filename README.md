@@ -18,7 +18,6 @@ Les éléments dont vous avez besoin pour installer le logiciel et comment les i
 
 ## Installation
 
-- Importer le fichier SQL fourni avec Mysql Workbench
 - Cloner le projet Github
 
 **Frontend :**
