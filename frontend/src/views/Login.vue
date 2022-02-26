@@ -70,6 +70,7 @@
         <span v-else>Créer mon compte</span>
       </button>
     </div>
+    <div class="message-erreur">{{ errorMessage }}</div>
   </div>
 </template>
 
@@ -85,6 +86,7 @@ export default {
       username: "",
       password: "",
       bio: "",
+      errorMessage: "",
     };
   },
   mounted: function() {
@@ -129,7 +131,7 @@ export default {
           self.$router.push("/profile");
         })
         .catch((error) => {
-          console.log(error);
+          this.errorMessage = error.response.data.error;
         });
     },
     createAccount() {
@@ -146,7 +148,7 @@ export default {
             self.login();
           },
           function(error) {
-            console.log(error);
+            this.errorMessage = error.response.data.error;
           }
         );
     },

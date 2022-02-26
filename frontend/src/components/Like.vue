@@ -2,6 +2,7 @@
   <div class="like">
     <font-awesome-icon id="likeIcon" icon="thumbs-up" @click="createLike" />
     <p>{{ likes }}</p>
+    <div class="message-erreur">{{ errorMessage }}</div>
   </div>
 </template>
 
@@ -12,6 +13,7 @@ export default {
   data() {
     return {
       likes: [],
+      errorMessage: "",
     };
   },
   mounted() {
@@ -23,7 +25,7 @@ export default {
         this.likes = response.data.likes;
       })
       .catch((error) => {
-        console.log(error);
+        this.errorMessage = error.response.data.error;
       });
   },
   methods: {
@@ -52,7 +54,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error);
+          this.errorMessage = error.response.data.error;
           alert("unable to like message !");
         });
     },

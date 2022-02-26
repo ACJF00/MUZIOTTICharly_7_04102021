@@ -26,6 +26,7 @@
         </button>
       </div>
     </div>
+    <div class="message-erreur">{{ errorMessage }}</div>
   </div>
 </template>
 
@@ -42,6 +43,7 @@ export default {
     return {
       bio: "",
       isHidden: true,
+      errorMessage: "",
     };
   },
   mounted: function() {
@@ -78,7 +80,7 @@ export default {
             }
           })
           .catch((error) => {
-            console.log(error);
+            this.errorMessage = error.response.data.error;
           });
     },
   },

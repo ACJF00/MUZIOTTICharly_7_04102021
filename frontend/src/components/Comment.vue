@@ -13,7 +13,7 @@
         @click="createComment(content)"
       />
     </div>
-        <div
+    <div
       class="card"
       v-for="newComment in newComments"
       :key="newComment.id"
@@ -85,7 +85,7 @@ export default {
     return {
       comments: [],
       newComments: [],
-      content: ""
+      content: "",
     };
   },
   mounted() {
@@ -96,9 +96,13 @@ export default {
       // Headers
       const token = this.$store.state.user.token;
       const messageId = this.$route.params.id;
-      const today = new Date()
-      const getMonth = (today.getMonth() + 1).toString().length === 1 ? `0${today.getMonth() + 1}`:today.getMonth() + 1 
-      const currentDate = today.getDate() +"/"+ getMonth +"/"+today.getFullYear();
+      const today = new Date();
+      const getMonth =
+        (today.getMonth() + 1).toString().length === 1
+          ? `0${today.getMonth() + 1}`
+          : today.getMonth() + 1;
+      const currentDate =
+        today.getDate() + "/" + getMonth + "/" + today.getFullYear();
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -127,7 +131,7 @@ export default {
           this.comments = response.data;
         })
         .catch((error) => {
-          console.log(error);
+          this.errorMessage = error.response.data.error;
         });
     },
     deleteComment(comment) {
@@ -138,16 +142,18 @@ export default {
         Authorization: `Bearer ${token}`,
       };
       if (confirm("Etes-vous sûr ?"))
-      axios
-        .delete(`http://localhost:3000/api/messages/comment/${id}`, { headers })
-        .then((res) => {
-          if (res) {
-            this.$router.go();
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        axios
+          .delete(`http://localhost:3000/api/messages/comment/${id}`, {
+            headers,
+          })
+          .then((res) => {
+            if (res) {
+              this.$router.go();
+            }
+          })
+          .catch((error) => {
+            this.errorMessage = error.response.data.error;
+          });
     },
   },
 };

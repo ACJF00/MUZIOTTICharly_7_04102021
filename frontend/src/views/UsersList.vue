@@ -15,23 +15,29 @@
             <br />
           </div>
           <span class="title font-weight-bold">
-            Créé le : <p id="userDetails">
-            {{
-              user.createdAt
-                .slice(0, 10)
-                .split("-")
-                .reverse()
-                .join("/")
-            }}
-          </p>
+            Créé le :
+            <p id="userDetails">
+              {{
+                user.createdAt
+                  .slice(0, 10)
+                  .split("-")
+                  .reverse()
+                  .join("/")
+              }}
+            </p>
           </span>
           <span class="title font-weight-bold"
-            >Username : <p id="userDetails">{{ user.username }}</p></span
+            >Username :
+            <p id="userDetails">{{ user.username }}</p></span
           >
-          <span class="title font-weight-bold">Email : <p id="userDetails">{{ user.email }}</p></span>
+          <span class="title font-weight-bold"
+            >Email :
+            <p id="userDetails">{{ user.email }}</p></span
+          >
         </div>
       </div>
     </div>
+    <div class="message-erreur">{{ errorMessage }}</div>
   </div>
 </template>
 
@@ -44,6 +50,7 @@ export default {
     return {
       user: "",
       users: [],
+      errorMessage: "",
     };
   },
   mounted() {
@@ -52,7 +59,7 @@ export default {
         headers: { Authorization: "Bearer " + localStorage.token },
       })
       .then((response) => (this.users = response.data.users))
-      .catch((err) => console.log(err));
+      .catch((error) => (this.errorMessage = error.response.data.error));
   },
 
   methods: {
@@ -72,7 +79,7 @@ export default {
             }
           })
           .catch((error) => {
-            console.log(error);
+            this.errorMessage = error.response.data.error;
           });
     },
   },
@@ -85,13 +92,13 @@ export default {
   h3 {
     text-align: center;
   }
-  span{
+  span {
     display: flex;
-  #userDetails {
-    color: $btn-color;
-    font-weight: bold;
-    padding-left: 0.5em;
-  }
+    #userDetails {
+      color: $btn-color;
+      font-weight: bold;
+      padding-left: 0.5em;
+    }
   }
 }
 </style>

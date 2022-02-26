@@ -10,7 +10,7 @@ import UsersList from "@/views/UsersList.vue";
 const routes = [
   {
     name: "login",
-    path: "/",
+    path: "/Login",
     component: Login,
     meta: {
       title: "Inscription",
@@ -71,6 +71,19 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+// Avant de rediriger le visiteur
+router.beforeEach((to, from, next) => {
+  const user = localStorage.getItem("user");
+  if (!user && to.path !== "/Login") {
+    if (from.path === "/Login") {
+      alert("Page protégée, connexion requise !");
+    }
+    next("/Login");
+  } else {
+    next();
+  }
 });
 
 router.afterEach((to, from) => {

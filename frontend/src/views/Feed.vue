@@ -4,12 +4,17 @@
     <div
       class="card"
       id="hoverCard"
-      v-for="(message) in messages" :key="message.id">
+      v-for="message in messages"
+      :key="message.id"
+    >
       <div class="displayMessage">
         <div class="deletePost">
           <font-awesome-icon
             icon="times"
-            v-if="message.UserId == this.$store.state.user.userId || this.$store.state.user.isAdmin == 1"
+            v-if="
+              message.UserId == this.$store.state.user.userId ||
+                this.$store.state.user.isAdmin == 1
+            "
             @click="deleteMessage(message)"
           />
         </div>
@@ -42,6 +47,7 @@
         </div>
       </div>
     </div>
+    <div class="message-erreur">{{ errorMessage }}</div>
   </div>
 </template>
 
@@ -53,17 +59,11 @@ export default {
   name: "Feed",
   components: { CreateMessage },
 
-
   data() {
     return {
       messages: [],
       userId: this.$store.state.user.userId,
-      rows: 0,
-      perPage: 10,
-      currentPage: 1,
-      dismissSecs: 5,
-      dismissCountDown: 0,
-      showDismissibleAlert: false,
+      errorMessage: "",
     };
   },
   mounted() {
@@ -79,7 +79,7 @@ export default {
         this.messages = response.data;
       })
       .catch((error) => {
-        console.log(error);
+        this.errorMessage = error.response.data.error;
       });
   },
   methods: {
@@ -102,7 +102,7 @@ export default {
             }
           })
           .catch((error) => {
-            console.log(error);
+            this.errorMessage = error.response.data.error;
           });
     },
     likePost(message) {
@@ -130,7 +130,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error);
+          this.errorMessage = error.response.data.error;
           alert("unable to like message !");
         });
     },
@@ -185,4 +185,3 @@ export default {
   overflow: hidden;
 }
 </style>
-

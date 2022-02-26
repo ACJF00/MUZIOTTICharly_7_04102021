@@ -68,7 +68,7 @@ module.exports = {
             if (!commentFound.length == 0) {
               res.status(200).json(commentFound);
             } else {
-              res.status(500).json({ error: "no comment" });
+              res.status(404).json({ error: "no comment" });
             }
           })
           .catch((err) => res.status(404).json({ error: "Error" }));

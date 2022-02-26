@@ -5,7 +5,10 @@
         <div class="deletePost">
           <font-awesome-icon
             icon="times"
-            v-if="message.UserId == this.$store.state.user.userId || this.$store.state.user.isAdmin == 1"
+            v-if="
+              message.UserId == this.$store.state.user.userId ||
+                this.$store.state.user.isAdmin == 1
+            "
             @click="deleteMessage()"
           />
         </div>
@@ -22,6 +25,7 @@
       </div>
       <Comment />
     </div>
+    <div class="message-erreur">{{ errorMessage }}</div>
   </div>
 </template>
 
@@ -36,6 +40,7 @@ export default {
   data() {
     return {
       message: [],
+      errorMessage: "",
     };
   },
   mounted() {
@@ -51,7 +56,7 @@ export default {
           this.message = response.data;
         })
         .catch((error) => {
-          console.log(error);
+          this.errorMessage = error.response.data.error;
         });
     },
     deleteMessage() {
@@ -61,18 +66,20 @@ export default {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       };
-if (confirm("Etes-vous sûr ?"))
-      axios
-        .delete(`http://localhost:3000/api/messages/${messageId}`, { headers })
-        .then((res) => {
-          if (res) {
-            this.$router.push("/feed");
-            alert("Votre message a bien été supprimé !");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (confirm("Etes-vous sûr ?"))
+        axios
+          .delete(`http://localhost:3000/api/messages/${messageId}`, {
+            headers,
+          })
+          .then((res) => {
+            if (res) {
+              this.$router.push("/feed");
+              alert("Votre message a bien été supprimé !");
+            }
+          })
+          .catch((error) => {
+            this.errorMessage = error.response.data.error;
+          });
     },
   },
 };

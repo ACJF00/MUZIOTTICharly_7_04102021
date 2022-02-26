@@ -62,12 +62,10 @@ module.exports = {
                       likes: messageFound.likes + disliked,
                     })
                     .then(() => {
-                      res
-                        .status(201)
-                        .json({
-                          message: "I no longer like this message !",
-                          likeFound,
-                        });
+                      res.status(201).json({
+                        message: "I no longer like this message !",
+                        likeFound,
+                      });
                     })
                     .catch((error) => {
                       res.status(400).json({ error });

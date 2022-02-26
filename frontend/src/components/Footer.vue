@@ -31,7 +31,6 @@
   </footer>
 </template>
 
-
 <style lang="scss">
 @import "src/scss/_variables.scss";
 
