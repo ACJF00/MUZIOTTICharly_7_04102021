@@ -1,3 +1,5 @@
+
+   
 <template>
   <div class="card">
     <h1 class="card__title" v-if="mode == 'login'">Connexion</h1>
@@ -92,6 +94,7 @@ export default {
   mounted: function() {
     if (this.$store.state.user.userId != -1) {
       this.$router.push("/");
+      localStorage.removeItem("user")
       return;
     }
   },

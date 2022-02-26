@@ -10,6 +10,7 @@ const PASSWORD_REGEX = /^(?=.*\d).{4,15}$/;
 
 // Routes
 module.exports = {
+  
   // Create account *****************************************************
   register: function (req, res) {
     // Paramètres
